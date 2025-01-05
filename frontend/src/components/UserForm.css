@@ -1,0 +1,99 @@
+/* Overall container for the user form */
+.user-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f7f6; /* Light background color */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Form box styling */
+  .user-form-container form {
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+  
+  /* Heading for the form */
+  .user-form-container h2 {
+    text-align: center;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  /* Label styling */
+  .user-form-container label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  /* Input field styling */
+  .user-form-container input,
+  .user-form-container select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus effect for input fields */
+  .user-form-container input:focus,
+  .user-form-container select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Button styling */
+  .user-form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for the submit button */
+  .user-form-container button:hover {
+    background-color: #218838;
+  }
+  
+  /* Styling for the "Already have an account?" message */
+  .user-form-container p {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .user-form-container button {
+    background-color: #007bff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  /* Hover effect for the login button */
+  .user-form-container button:hover {
+    background-color: #0056b3;
+  }
+  
