@@ -1,0 +1,22 @@
+.video-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four cards per row */
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #e9f5e9, #ededed);
+
+  }
+  
+  .card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    height: 250px; /* Set desired height */
+    display: flex; /* Center content vertically and horizontally */
+    flex-direction: column; /* Stack content */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+  }
+  

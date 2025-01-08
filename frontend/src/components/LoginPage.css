@@ -1,0 +1,71 @@
+/* Container styling */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7; /* Light theme background */
+  }
+  
+  /* Form styling */
+  .form {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Heading styling */
+  .heading {
+    margin-bottom: 20px;
+    color: #333; /* Light theme text color */
+  }
+  
+  /* Input fields styling */
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* OTP container styling */
+  .otp-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* OTP button styling */
+  .otp-button {
+    padding: 10px;
+    background-color: #4caf50; /* Green button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Timer styling */
+  .timer {
+    color: #ff5722; /* Bright orange for timer */
+    font-size: 14px;
+  }
+  
+  /* Login button styling */
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Blue button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

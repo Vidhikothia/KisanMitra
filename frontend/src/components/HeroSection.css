@@ -1,0 +1,49 @@
+.hero-section {
+  background: url("C:/Users/Vidhi/OneDrive/Desktop/Kisan Mitra/frontend/src/components/farm.jpg") center/cover no-repeat;
+  height: 100vh; /* Full viewport height */
+  display: flex; /* Center content vertically and horizontally */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 0 20px;
+  margin: 0; /* Remove any default margin */
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 3s forwards; /* Fade-in effect for the entire hero section */
+}
+
+.hero-section h1 {
+  font-size: 3rem; /* Adjust font size for welcome message */
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: slideIn 2s forwards 0.5s; /* Slide-in and fade-in effect for the title */
+}
+
+.hero-section p {
+  font-size: 1.5rem; /* Adjust font size for subtitle */
+  opacity: 0;
+  animation: slideIn 2s forwards 1s; /* Slide-in and fade-in effect for the subtitle */
+}
+
+/* Fade-in animation for the entire hero section */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Slide-in and fade-in effect for the title and subtitle */
+@keyframes slideIn {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

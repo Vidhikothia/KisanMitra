@@ -1,0 +1,86 @@
+/* General Page Styles */
+.videos-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .videos-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #222;
+  }
+  
+  /* Videos Container */
+  .videos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-items: center;
+  }
+  
+  /* Video Card */
+  .video-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Thumbnail */
+  .video-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  /* Video Info */
+  .video-info {
+    padding: 15px;
+  }
+  
+  .video-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #0073e6;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .video-title:hover {
+    text-decoration: underline;
+  }
+  
+  .video-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Video Meta */
+  .video-meta {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  .video-date,
+  .video-educator {
+    margin-bottom: 5px;
+  }
+  

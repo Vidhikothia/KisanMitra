@@ -1,0 +1,71 @@
+.about-us {
+    background-color: #f7f7f7;
+    padding: 80px 20px;
+    text-align: center;
+  }
+  
+  .about-us .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .about-us .heading {
+    font-size: 3rem;
+    color: #2d7a35;
+    margin-bottom: 30px;
+  }
+  
+  .about-us .content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .about-us .text {
+    flex: 1;
+    margin-right: 20px;
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+  
+  .about-us .text p {
+    margin-bottom: 20px;
+  }
+  
+  .about-us .image {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .about-us .image img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .about-us .image img {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-us strong {
+    color: #2d7a35; /* Highlight brand color */
+  }
+  
+  @media (max-width: 768px) {
+    .about-us .content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .about-us .text {
+      margin-right: 0;
+    }
+  
+    .about-us .image {
+      margin-top: 20px;
+    }
+  }
+  
