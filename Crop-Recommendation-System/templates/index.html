@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendation System</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #4caf50;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        input {
+            height: 44px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+        }
+
+        button {
+            height: 50px;
+            background: linear-gradient(90deg, #4caf50, #81c784);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #4caf50;
+            padding: 12px;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            background: #e8f5e9;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .note {
+            font-size: 14px;
+            text-align: center;
+            color: #888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Your Ideal Crop!</h1>
+        <form method="POST" action="/predict">
+            <label for="N">Nitrogen (N)</label>
+            <input type="number" step="any" name="N" required placeholder="Enter Nitrogen value">
+
+            <label for="P">Phosphorous (P)</label>
+            <input type="number" step="any" name="P" required placeholder="Enter Phosphorous value">
+
+            <label for="K">Potassium (K)</label>
+            <input type="number" step="any" name="K" required placeholder="Enter Potassium value">
+
+            <label for="temperature">Temperature (°C)</label>
+            <input type="number" step="any" name="temperature" required placeholder="Enter Temperature">
+
+            <label for="humidity">Humidity (%)</label>
+            <input type="number" step="any" name="humidity" required placeholder="Enter Humidity">
+
+            <label for="pH">pH</label>
+            <input type="number" step="any" name="pH" required placeholder="Enter pH value">
+
+            <label for="rainfall">Rainfall (mm)</label>
+            <input type="number" step="any" name="rainfall" required placeholder="Enter Rainfall">
+
+            <button type="submit">🌟 Predict My Crop</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result"> 🌱 <strong>Recommended Crop:</strong> {{ prediction }} </div>
+        {% endif %}
+        
+        <p class="note">* Accurate results depend on input quality.</p>
+    </div>
+</body>
+</html>
