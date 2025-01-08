@@ -1,0 +1,79 @@
+/* Soothing Green Background */
+.schemes-section {
+  background: white;
+  /* background: linear-gradient(to bottom, #e9f5e9, #c7eac7); */
+  padding: 30px 15px; /* Reduced padding for a more compact look */
+  font-family: 'Arial', sans-serif;
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  
+}
+
+/* Title Styling */
+.section-title {
+  font-size: 1.8rem; /* Smaller title font */
+  font-weight: bold;
+  color: #2f4f2f; /* Dark green for emphasis */
+  margin-bottom: 15px;
+}
+
+.section-description {
+  font-size: 1rem; /* Reduced font size for the description */
+  color: #355e35; /* Subtle green shade */
+  margin-bottom: 30px;
+  
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+
+}
+
+/* Card Styling */
+.scheme-card {
+  background-color: linear-gradient(to bottom, #e9f5e9, #c7eac7);; /* White card for contrast */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 15px; /* Reduced padding inside cards */
+  width: 260px; /* Narrower card width */
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: linear-gradient(to bottom, #e9f5e9, #c7eac7);
+
+}
+
+.scheme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.scheme-card h2 {
+  font-size: 1.2rem; /* Smaller card title font */
+  color: #2f4f2f;
+  margin-bottom: 8px;
+}
+
+.scheme-card p {
+  font-size: 0.9rem; /* Smaller paragraph font */
+  color: #4f704f;
+  margin-bottom: 12px;
+}
+
+.scheme-card a {
+  font-size: 0.9rem; /* Smaller link font */
+  color: #006400; /* Dark green link */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.scheme-card a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,11 @@
+.mantra {
+    /* background: rgb(137, 114, 71);  */
+    background: linear-gradient(to bottom, #e9f5e9, #3a7d3a);
+    color: white;
+    text-align: center;
+    padding: 20px 10px; /* Increased padding for more height */
+    margin: 30px 20px 30px;
+    border-radius: 8px; /* Keeps the corners rounded */
+    font-size: 1.5rem; /* Adjust font size if needed */
+  }
+  

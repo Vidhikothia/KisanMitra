@@ -1,0 +1,30 @@
+/* Positioning the icon at the bottom-right */
+.crop-recommendation-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;  /* Ensure the icon is above all other content */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+  }
+  
+  /* Icon style */
+  .crop-recommendation-icon .icon {
+    font-size: 40px;
+    background-color: #fcfcfc;  /* Green background */
+    padding: 8px;
+    border-radius: 50%;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Hover effect on the icon */
+  .crop-recommendation-icon:hover .icon {
+    transform: scale(1.1);  /* Enlarge the icon slightly when hovered */
+  }
+  
