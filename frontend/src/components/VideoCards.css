@@ -19,4 +19,9 @@
     justify-content: center; /* Center content vertically */
     align-items: center; /* Center content horizontally */
   }
+
+ .para{
+    color:black;
+    align-content: center;
+  }
   
