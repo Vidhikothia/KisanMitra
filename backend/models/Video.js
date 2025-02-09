@@ -1,15 +1,31 @@
-// models/Video.js
 const mongoose = require('mongoose');
 
 const videoSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String },
-  category: { type: String },
-  educator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Educator', required: true },
-  likes_count: { type: Number, default: 0 },
-  views_count: { type: Number, default: 0 },
-  upload_date: { type: Date, default: Date.now },
-  is_premium: { type: Boolean, default: false },
+  video_id: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    default: () => new mongoose.Types.ObjectId() 
+  }, // Primary Key
+  content_id: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Content', 
+    required: true 
+  }, // Foreign Key linking to Content table
+  view_count: { 
+    type: Number, 
+    default: 0 
+  }, // Number of times the video has been viewed
+  like_count: { 
+    type: Number, 
+    default: 0 
+  }, // Number of likes on the video
+  saved_count: { 
+    type: Number, 
+    default: 0 
+  }, // Number of times the video has been saved
+  video_url: { 
+    type: String, 
+    required: true 
+  }, // URL pointing to the video file
 }, { timestamps: true });
 
 module.exports = mongoose.model('Video', videoSchema);
