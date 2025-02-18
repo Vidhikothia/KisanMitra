@@ -1,22 +1,28 @@
 const express = require('express');
 const connectDB = require('./db');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
+// const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes'); // Correct the path here
-const cropRoutes = require('./routes/cropRoutes');
+const cookieParser = require('cookie-parser');
+// const cropRoutes = require('./routes/cropRoutes');
 const app = express();
 
 // Connect to database
 connectDB();
 
 // Middleware
-app.use(cors());
 app.use(express.json()); // For parsing application/json
-
+app.use(cookieParser()); // Middleware for JSON parsing
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Adjust if frontend URL is different
+    credentials: true, // ✅ Allows frontend to send cookies
+  })
+);
 // Routes
-app.use('/api', userRoutes);
+// app.use('/auth/api', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/api/crops', cropRoutes);
+// app.use('/api/crops', cropRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
