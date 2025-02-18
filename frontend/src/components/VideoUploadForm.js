@@ -82,23 +82,21 @@ const VideoUploadForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append('video', videoFile);
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('videoType', videoType);
-
-    // Send the data to your backend API for video upload
+    formData.append('content_id', '65f4d7eabc12345678901234'); // Replace with actual content_id
+  
     try {
-      const response = await fetch('/api/upload-video', {
+      const response = await fetch('http://localhost:5000/api/upload-video', {
         method: 'POST',
         body: formData,
       });
-
+  
+      const data = await response.json();
       if (response.ok) {
         alert('Video uploaded successfully');
+        console.log('Uploaded Video:', data.video);
       } else {
         alert('Video upload failed');
       }
@@ -107,6 +105,7 @@ const VideoUploadForm = () => {
       alert('An error occurred');
     }
   };
+  
 
   return (
     <div className="video-upload-container">
