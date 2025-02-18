@@ -14,6 +14,8 @@ import Scheme from "./components/scheme";
 import AboutUs from "./components/AboutUs";
 import Videos from "./components/Videos";
 import Crop from './components/Crop'; // Make sure the path is correct
+import PlantDiseaseDetection from './components/PlantDiseaseDetection';
+import VideoUploadForm from "./components/VideoUploadForm";
 
 const App = () => {
   return (
@@ -30,6 +32,7 @@ const App = () => {
               <HeroSection />
               <Mantra />
               <Crop />
+              <PlantDiseaseDetection />
               <VideoCards />
               <Scheme />
               <Footer />
@@ -44,8 +47,7 @@ const App = () => {
         <Route path="/cheatsheet" element={<CheatsheetPage />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/videos" element={<Videos />} />
-
-
+        <Route path="/videouploadform" element={<VideoUploadForm />}/>
 
       </Routes>
     </Router>

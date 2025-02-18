@@ -1,0 +1,109 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Video Upload Container */
+  .video-upload-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+  }
+  
+  /* Title Styles */
+  h2 {
+    color: #2e7d32;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Elements */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Label Styles */
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2e7d32;
+  }
+  
+  /* Input and Textarea Styles */
+  .input-group input[type="text"],
+  .input-group textarea,
+  .input-group input[type="file"],
+  select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .input-group input[type="text"]:focus,
+  .input-group textarea:focus,
+  .input-group select:focus {
+    outline: none;
+    border-color: #4caf50;
+  }
+  
+  /* Category Dropdown */
+  .video-category select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  /* Radio Button Styles */
+  .video-type input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .video-type div {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  /* Button Styles */
+  button[type="submit"] {
+    padding: 12px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #388e3c;
+  }
+  
+  /* Other Category Input */
+  .other-category input[type="text"] {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .other-category input[type="text"]:focus {
+    border-color: #4caf50;
+  }
+  

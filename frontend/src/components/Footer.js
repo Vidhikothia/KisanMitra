@@ -39,7 +39,7 @@ const Footer = () => {
                 Rashtriya Krishi Vikas Yojana
               </a>
             </li>
-          </ul>
+          </ul> 
         </div>
       </div>
       <div className="footer-bottom">
