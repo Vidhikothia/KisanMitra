@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // For redirection
+import axios from "axios"; // To send the login request to the backend
 
 const LoginPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [isPhone, setIsPhone] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
   const [otpSent, setOtpSent] = useState(false);
+  const [password, setPassword] = useState(""); // For password input
+  const [otp, setOtp] = useState(""); // For OTP input
+  const [errorMessage, setErrorMessage] = useState(""); // Error handling
+  const navigate = useNavigate();
 
   // Handle input change and determine if it's a phone number
   const handleInputChange = (e) => {
@@ -31,9 +37,28 @@ const LoginPage = () => {
   }, [otpTimer]);
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Logging in with ${isPhone ? "Phone" : "Email"}: ${inputValue}`);
+
+    const userData = isPhone
+      ? { phone_number: inputValue, otp } // For phone login
+      : { email: inputValue, password }; // For email login
+
+    try {
+      const response = await axios.post("http://localhost:5000/auth/login", userData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // Save token or other authentication details if needed
+      localStorage.setItem("authToken", response.data.token); // Example for saving token
+
+      // Redirect to home page upon successful login
+      navigate("/");
+
+    } catch (error) {
+      console.error("Login failed:", error);
+      setErrorMessage(error.response?.data?.message || "Login failed");
+    }
   };
 
   return (
@@ -57,6 +82,8 @@ const LoginPage = () => {
               <input
                 type="password"
                 placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 style={styles.input}
               />
             ) : (
@@ -65,6 +92,8 @@ const LoginPage = () => {
                 <input
                   type="text"
                   placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
                   disabled={!otpSent}
                   style={styles.input}
                 />
@@ -86,14 +115,17 @@ const LoginPage = () => {
           </>
         )}
 
+        {/* Error Message */}
+        {errorMessage && <div style={styles.error}>{errorMessage}</div>}
+
         {/* Login Button */}
         <button type="submit" style={styles.loginButton}>
           Login
         </button>
 
-         {/* Register Link */}
-         <p>
-            <br></br><br></br>
+        {/* Register Link */}
+        <p>
+          <br />
           Don't have an account?{" "}
           <a href="/register" style={{ color: "#007BFF", textDecoration: "none" }}>
             Register
@@ -106,86 +138,79 @@ const LoginPage = () => {
 
 // Inline styles for the component
 const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",  // Increased height for better view
-      backgroundColor: "#f0f4f8", // Light background color for modern look
-      padding: "0 20px", // Added padding to prevent content from sticking to sides
-    },
-    form: {
-      width: "100%",
-      maxWidth: "500px", // Larger form for more space
-      background: "#ffffff",
-      padding: "50px",
-      borderRadius: "12px", // Rounded corners for a modern feel
-      boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)", // Soft shadow for depth
-      textAlign: "center",
-      transition: "all 0.3s ease-in-out", // Smooth transition effect for any changes
-    },
-    heading: {
-      marginBottom: "55px",
-      color: "#333",
-      fontSize: "2rem", // Larger heading
-      fontWeight: "600", // Bold heading
-      letterSpacing: "0.5px", // Spacing between letters for readability
-    },
-    input: {
-      paddingRight:"0.2px",
-      width: "100%",
-      padding: "15px",
-      marginBottom: "40px", // Increased margin between fields
-      border: "1px solid #ddd",
-      borderRadius: "8px", // Slightly rounded corners
-      fontSize: "16px",
-      backgroundColor: "#fafafa", // Light grey background for inputs
-      transition: "border 0.3s ease", // Smooth transition when focusing on input
-    },
-    inputFocus: {
-      border: "1px solid #4CAF50", // Green border when focused
-      outline: "none",
-    },
-    otpContainer: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      marginBottom: "20px", // Margin between OTP and button
-    },
-    otpButton: {
-      padding: "12px",
-      backgroundColor: "#4CAF50", // Green for the OTP button
-      color: "#fff",
-      border: "none",
-      borderRadius: "8px",
-      cursor: "pointer",
-      fontSize: "16px",
-      transition: "background-color 0.3s ease",
-    },
-    otpButtonHover: {
-      backgroundColor: "#45a049", // Darker green on hover
-    },
-    timer: {
-      color: "#FF5722",
-      fontSize: "14px",
-      marginLeft: "10px", // Small spacing between the timer and button
-    },
-    loginButton: {
-      width: "100%",
-      padding: "14px",
-      backgroundColor: "#4CAF50", // Green color for the button
-      color: "#fff",
-      border: "none",
-      borderRadius: "8px",
-      fontSize: "18px",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease", // Smooth hover effect
-    },
-    loginButtonHover: {
-      backgroundColor: "#45a049", // Darker green for hover effect
-    },
-    
-  };
-    
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh", // Increased height for better view
+    backgroundColor: "#f0f4f8", // Light background color for modern look
+    padding: "0 20px", // Added padding to prevent content from sticking to sides
+  },
+  form: {
+    width: "100%",
+    maxWidth: "500px", // Larger form for more space
+    background: "#ffffff",
+    padding: "50px",
+    borderRadius: "12px", // Rounded corners for a modern feel
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)", // Soft shadow for depth
+    textAlign: "center",
+    transition: "all 0.3s ease-in-out", // Smooth transition effect for any changes
+  },
+  heading: {
+    marginBottom: "55px",
+    color: "#333",
+    fontSize: "2rem", // Larger heading
+    fontWeight: "600", // Bold heading
+    letterSpacing: "0.5px", // Spacing between letters for readability
+  },
+  input: {
+    paddingRight: "0.2px",
+    width: "100%",
+    padding: "15px",
+    marginBottom: "40px", // Increased margin between fields
+    border: "1px solid #ddd",
+    borderRadius: "8px", // Slightly rounded corners
+    fontSize: "16px",
+    backgroundColor: "#fafafa", // Light grey background for inputs
+    transition: "border 0.3s ease", // Smooth transition when focusing on input
+  },
+  otpContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "20px", // Margin between OTP and button
+  },
+  otpButton: {
+    padding: "12px",
+    backgroundColor: "#4CAF50", // Green for the OTP button
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontSize: "16px",
+    transition: "background-color 0.3s ease",
+  },
+  timer: {
+    color: "#FF5722",
+    fontSize: "14px",
+    marginLeft: "10px", // Small spacing between the timer and button
+  },
+  loginButton: {
+    width: "100%",
+    padding: "14px",
+    backgroundColor: "#4CAF50", // Green color for the button
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "18px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease", // Smooth hover effect
+  },
+  error: {
+    color: "#FF5722",
+    fontSize: "14px",
+    marginBottom: "10px",
+  },
+};
 
 export default LoginPage;

@@ -1,198 +1,133 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
-  const countriesData = [
-    { name: "USA", states: ["California", "Texas", "New York"] },
-    { name: "India", states: ["Maharashtra", "Delhi", "Tamil Nadu"] },
-    { name: "Canada", states: ["Ontario", "Quebec", "British Columbia"] },
-  ];
-
-  const [countries, setCountries] = useState(countriesData);
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [states, setStates] = useState([]);
-  const [selectedState, setSelectedState] = useState("");
-  const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [language, setLanguage] = useState("");
-  const [role, setRole] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [phone_number, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("Educator");
+  const [preferred_language, setPreferredLanguage] = useState("English");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleCountryChange = (event) => {
-    const selectedCountryName = event.target.value;
-    setSelectedCountry(selectedCountryName);
+  const navigate = useNavigate();
 
-    const country = countries.find((country) => country.name === selectedCountryName);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (country) {
-      setStates(country.states);
-      setCities([]);
-      setSelectedState("");
-    } else {
-      setStates([]);
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match!");
+      return;
     }
-  };
 
-  const handleStateChange = (event) => {
-    const selectedStateName = event.target.value;
-    setSelectedState(selectedStateName);
+    const userData = {
+      username,
+      email,
+      phone_number,
+      password,
+      role,
+      preferred_language,
+    };
 
-    if (selectedStateName) {
-      setCities(["City 1", "City 2", "City 3"]);
-    } else {
-      setCities([]);
+    try {
+      const response = await axios.post("http://localhost:5000/auth/register", userData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      setSuccessMessage(response.data.message);
+      setErrorMessage("");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Registration failed");
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert("Form submitted");
   };
 
   return (
     <div style={styles.container}>
-      <form style={styles.form} onSubmit={handleSubmit}>
-        <h2 style={styles.heading}>Register</h2>
+      <h2 style={styles.heading}>Create an Account</h2>
+      {errorMessage && <div style={styles.error}>{errorMessage}</div>}
+      {successMessage && <div style={styles.success}>{successMessage}</div>}
 
-        {/* First Name and Last Name */}
-        <div style={styles.row}>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.inputGroup}>
+          <label>Username</label>
           <input
             type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            style={styles.input}
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
             style={styles.input}
           />
         </div>
 
-        {/* Language and Role */}
-        <div style={styles.row}>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            style={styles.input}
-          >
-            <option value="">Select Language</option>
-            <option value="English">English</option>
-            <option value="Spanish">Spanish</option>
-            <option value="French">French</option>
-          </select>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            style={styles.input}
-          >
-            <option value="">Select Role</option>
-            <option value="User">User</option>
-            <option value="Admin">Admin</option>
-          </select>
-        </div>
-
-        {/* Country and State */}
-        <div style={styles.row}>
-          <select
-            value={selectedCountry}
-            onChange={handleCountryChange}
-            style={styles.input}
-          >
-            <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country.name} value={country.name}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedState}
-            onChange={handleStateChange}
-            style={styles.input}
-            disabled={!states.length}
-          >
-            <option value="">Select State</option>
-            {states.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* City and Email */}
-        <div style={styles.row}>
-          <select
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            style={styles.input}
-            disabled={!cities.length}
-          >
-            <option value="">Select City</option>
-            {cities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+        <div style={styles.inputGroup}>
+          <label>Email</label>
           <input
             type="email"
-            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
             style={styles.input}
           />
         </div>
 
-        {/* Phone Number and Password */}
-        <div style={styles.row}>
+        <div style={styles.inputGroup}>
+          <label>Phone Number</label>
           <input
             type="text"
-            placeholder="Phone Number"
-            value={phoneNo}
-            onChange={(e) => setPhoneNo(e.target.value)}
+            value={phone_number}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
             style={styles.input}
           />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label>Password</label>
           <input
             type="password"
-            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
             style={styles.input}
           />
         </div>
 
-        {/* Confirm Password */}
-        <div style={styles.row}>
+        <div style={styles.inputGroup}>
+          <label>Confirm Password</label>
           <input
             type="password"
-            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            required
             style={styles.input}
           />
         </div>
 
-        {/* Register Button */}
-        <button type="submit" style={styles.registerButton}>
-          Register
-        </button>
+        <div style={styles.inputGroup}>
+          <label>Role</label>
+          <select value={role} onChange={(e) => setRole(e.target.value)} required style={styles.select}>
+            <option value="Admin">Admin</option>
+            <option value="Educator">Educator</option>
+            <option value="Farmer">Farmer</option>
+          </select>
+        </div>
 
-        {/* Already have an account */}
-        <p>
-          Already have an account?{" "}
-          <a href="/login" style={styles.loginLink}>
-            Login
-          </a>
-        </p>
+        <div style={styles.inputGroup}>
+          <label>Preferred Language</label>
+          <select value={preferred_language} onChange={(e) => setPreferredLanguage(e.target.value)} required style={styles.select}>
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Gujarati">Gujarati</option>
+          </select>
+        </div>
+
+        <button type="submit" style={styles.button}>Register</button>
       </form>
     </div>
   );
@@ -200,56 +135,59 @@ const RegisterPage = () => {
 
 const styles = {
   container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: "#f0f4f8",
+    maxWidth: "400px",
+    margin: "50px auto",
     padding: "20px",
-  },
-  form: {
-    width: "100%",
-    maxWidth: "900px", // Increased width for landscape layout
-    background: "#ffffff",
-    padding: "40px",
-    borderRadius: "12px",
-    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
-    textAlign: "left",
+    textAlign: "center",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
   },
   heading: {
-    textAlign: "center",
-    marginBottom: "30px",
-    color: "#333",
-    fontSize: "2rem",
-    fontWeight: "600",
-  },
-  row: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "20px",
     marginBottom: "20px",
+    color: "#333",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  inputGroup: {
+    marginBottom: "15px",
+    textAlign: "left",
   },
   input: {
-    width: "48%",
-    padding: "15px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    fontSize: "16px",
-    backgroundColor: "#fafafa",
-  },
-  registerButton: {
     width: "100%",
-    padding: "14px",
-    backgroundColor: "#4CAF50",
+    padding: "8px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
+  select: {
+    width: "100%",
+    padding: "8px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
+  button: {
+    padding: "10px",
+    fontSize: "18px",
+    backgroundColor: "#28a745",
     color: "#fff",
     border: "none",
-    borderRadius: "8px",
-    fontSize: "18px",
+    borderRadius: "5px",
     cursor: "pointer",
+    marginTop: "10px",
   },
-  loginLink: {
-    color: "#007BFF",
-    textDecoration: "none",
+  error: {
+    color: "red",
+    fontSize: "14px",
+    marginBottom: "10px",
+  },
+  success: {
+    color: "green",
+    fontSize: "14px",
+    marginBottom: "10px",
   },
 };
 
