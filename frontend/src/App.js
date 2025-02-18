@@ -16,6 +16,8 @@ import Videos from "./components/Videos";
 import Crop from './components/Crop'; // Make sure the path is correct
 import PlantDiseaseDetection from './components/PlantDiseaseDetection';
 import VideoUploadForm from "./components/VideoUploadForm";
+import ArticleUploadForm from "./components/ArticleUploadForm";
+import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
 
 const App = () => {
   return (
@@ -48,6 +50,8 @@ const App = () => {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/videouploadform" element={<VideoUploadForm />}/>
+        <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />}/>
+        <Route path="/articleuploadform" element={<ArticleUploadForm />}/>
 
       </Routes>
     </Router>
