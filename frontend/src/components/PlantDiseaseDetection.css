@@ -1,0 +1,44 @@
+.plant-disease-detection-icon {
+    position: fixed; /* Fixed position for staying on the side */
+    top: 50%; /* Center vertically */
+    left: 0; /* Stick to the left edge */
+    transform: translateY(-50%); /* Adjust for centering */
+    display: flex;
+    flex-direction: row; /* Horizontal alignment for icon and label */
+    align-items: center;
+    width: 60px; /* Only the width of the icon initially */
+    height: 60px; /* Height for the icon box */
+    background-color: #f0f4f7;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow towards the right */
+    cursor: pointer;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    overflow: hidden; /* Hide the label initially */
+}
+
+.plant-disease-detection-icon:hover {
+    width: auto; /* Expand to fit the label */
+    background-color: #e8f5e9; /* Light green for hover */
+}
+
+.plant-disease-detection-icon .icon {
+    font-size: 2rem; /* Icon size */
+    margin: 0 10px; /* Add spacing between icon and label */
+}
+
+.icon-label {
+    font-size: 0.9rem; /* Label font size */
+    color: #555;
+    margin-right: 20px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent line breaks */
+    opacity: 0; /* Hidden by default */
+    transform: translateX(-10px); /* Slightly hidden initially */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.plant-disease-detection-icon:hover .icon-label {
+    opacity: 1; /* Make the label visible */
+    transform: translateX(0); /* Slide into view */
+}
