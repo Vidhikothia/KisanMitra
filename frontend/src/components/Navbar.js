@@ -43,7 +43,12 @@ const Navbar = () => {
       </div>
       <ul className="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/videouploadform">Become an Educator</a></li>
+        <li><a href="#educate">Become an Educator</a>
+        <ul className="dropdown">
+            <li><a href="/videouploadform">Upload Video</a></li>
+            <li><a href="/cheatsheetuploadform">Upload Cheatsheet</a></li>
+            <li><a href="/articleuploadform">Upload Article</a></li>
+          </ul></li>
         <li>
           <a href="#resources">Resources</a>
           <ul className="dropdown">
