@@ -13,8 +13,8 @@ const VideoCards = () => {
       <div className="card">Video 7</div>
       <div className="card">Video 8</div>
       <div className="para"><a href="/Videos">View More</a></div>
-
     </div>
+    
     
   );
 };
