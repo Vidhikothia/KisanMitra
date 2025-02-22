@@ -33,9 +33,7 @@ const RegisterPage = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/register", userData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await axios.post("http://localhost:5000/auth/register", userData, { withCredentials: true });
 
       setSuccessMessage(response.data.message);
       setErrorMessage("");
@@ -59,17 +57,17 @@ const RegisterPage = () => {
           <input
             type="text"
             placeholder="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             style={styles.input}
           />
-          <input
+          {/* <input
             type="text"
             placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             style={styles.input}
-          />
+          /> */}
         </div>
 
         <div style={styles.inputGroup}>
