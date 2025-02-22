@@ -1,7 +1,7 @@
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 // ✅ Corrected import statement
-const cloudinary = require('..config/cloudinaryConfig');
+const cloudinary = require('../config/cloudinaryConfig');
 
 // 🎯 Combined storage configuration for photos and videos
 const storage = new CloudinaryStorage({
