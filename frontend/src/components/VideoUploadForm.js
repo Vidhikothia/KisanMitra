@@ -1,159 +1,70 @@
 import React, { useState } from 'react';
-import './VideoUploadForm.css';
+import axios from 'axios';
+import "./VideoUploadForm.css";
 
-// Video Category Component
-const VideoCategorySelect = ({ setCategory }) => {
-  const [otherCategory, setOtherCategory] = useState('');
-
-  const handleCategoryChange = (e) => {
-    if (e.target.value === 'Other') {
-      setCategory(otherCategory);
-    } else {
-      setCategory(e.target.value);
-    }
-  };
-
-  return (
-    <div className="video-category">
-      <label htmlFor="category">Category:</label>
-      <select id="category" onChange={handleCategoryChange}>
-        <option value="Soil Related">Soil Related</option>
-        <option value="Weather">Weather</option>
-        <option value="Agriculture Tips">Agriculture Tips</option>
-        <option value="Farming Practices">Farming Practices</option>
-        <option value="Other">Other</option>
-      </select>
-
-      {otherCategory && (
-        <div className="other-category">
-          <label htmlFor="otherCategory">Please specify:</label>
-          <input
-            type="text"
-            id="otherCategory"
-            value={otherCategory}
-            onChange={(e) => setOtherCategory(e.target.value)}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Video Type Radio Buttons Component
-const RadioButtons = ({ setVideoType }) => {
-  return (
-    <div className="video-type">
-      <label>Video Type:</label>
-      <div>
-        <input
-          type="radio"
-          id="premium"
-          name="videoType"
-          value="Premium"
-          onChange={(e) => setVideoType(e.target.value)}
-        />
-        <label htmlFor="premium">Premium</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="standard"
-          name="videoType"
-          value="Standard"
-          onChange={(e) => setVideoType(e.target.value)}
-        />
-        <label htmlFor="standard">Standard</label>
-      </div>
-    </div>
-  );
-};
-
-// Main Video Upload Form Component
 const VideoUploadForm = () => {
-  const [videoFile, setVideoFile] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [creator, setCreator] = useState(''); // Replace with actual user ID from auth
   const [category, setCategory] = useState('');
-  const [videoType, setVideoType] = useState('');
+  const [isPremium, setIsPremium] = useState(false);
+  const [video, setVideo] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleVideoChange = (e) => {
-    setVideoFile(e.target.files[0]);
+  // Handle file change
+  const handleFileChange = (e) => {
+    setVideo(e.target.files[0]);
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!video) {
+      setMessage('Please select a video file.');
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('video', videoFile);
     formData.append('title', title);
     formData.append('description', description);
+    formData.append('creator', creator);
     formData.append('category', category);
-    formData.append('videoType', videoType);
+    formData.append('is_premium', isPremium);
+    formData.append('video', video);
 
-    // Send the data to your backend API for video upload
     try {
-      const response = await fetch('/api/upload-video', {
-        method: 'POST',
-        body: formData,
+      setUploading(true);
+      const response = await axios.post('http://localhost:5000/api/content/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      if (response.ok) {
-        alert('Video uploaded successfully');
-      } else {
-        alert('Video upload failed');
-      }
+      setMessage(response.data.message);
+      setUploading(false);
     } catch (error) {
-      console.error('Error uploading video:', error);
-      alert('An error occurred');
+      setMessage('Upload failed. Try again.');
+      setUploading(false);
     }
   };
 
   return (
-    <div className="video-upload-container">
+    <div className="upload-container">
       <h2>Upload Video</h2>
+      {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
-        {/* Title */}
-        <div className="input-group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Description */}
-        <div className="input-group">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Category */}
-        <VideoCategorySelect setCategory={setCategory} />
-
-        {/* Video Type */}
-        <RadioButtons setVideoType={setVideoType} />
-
-        {/* Video File Upload */}
-        <div className="input-group">
-          <label htmlFor="video">Video File:</label>
-          <input
-            type="file"
-            id="video"
-            accept="video/*"
-            onChange={handleVideoChange}
-            required
-          />
-        </div>
-
-        <button type="submit">Upload</button>
+        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+        <input type="text" placeholder="Creator ID" value={creator} onChange={(e) => setCreator(e.target.value)} required />
+        <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <label>
+          <input type="checkbox" checked={isPremium} onChange={() => setIsPremium(!isPremium)} />
+          Premium Content
+        </label>
+        <input type="file" accept="video/*" onChange={handleFileChange} required />
+        <button type="submit" disabled={uploading}>{uploading ? 'Uploading...' : 'Upload Video'}</button>
       </form>
     </div>
   );
