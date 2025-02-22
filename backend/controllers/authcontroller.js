@@ -48,12 +48,12 @@ const generateToken = (user) => {
       const token = generateToken( user);
       
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: "strict",
+      //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      // });
       res.status(201).json({ message: "User registered successfully", user,token });
     } catch (error) {
       res.status(500).json({ message: "Error registering user", error: error.message });
@@ -85,8 +85,8 @@ const generateToken = (user) => {
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: rememberMe 
-                ? 30 * 24 * 60 * 60 * 1000 // 30 days
-                : 7 * 24 * 60 * 60 * 1000,  // 7 days
+                ? 2 * 24 * 60 * 60 * 1000 // 30 days
+                : 1 * 24 * 60 * 60 * 1000,  // 7 days
         });
 
         res.json({ message: "Login successful", user, token });
