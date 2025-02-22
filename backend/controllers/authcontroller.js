@@ -15,19 +15,11 @@ const generateToken = (user) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-  
-    // Set token in HTTP-only cookie
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: "strict",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    // });
   };
 
   const register = async (req, res) => {
     try {
-      const { username, email,phone_number , password, role, preferred_language } = req.body;
+      const { username, email,phone_number , password, role, preferred_language,state, city } = req.body;
   
       // Check if user exists
       const existingUser = await User.findOne({ email });
@@ -46,7 +38,8 @@ const generateToken = (user) => {
         password:hashedPassword,
         role,
         preferred_language,
-        
+        state: state || null, // Assign null if not provided
+        city: city || null,
       });
   
       // Generate token & send response

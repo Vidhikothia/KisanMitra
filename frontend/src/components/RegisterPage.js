@@ -62,18 +62,12 @@ const RegisterPage = () => {
         <div style={styles.row}>
           <input
             type="text"
-            placeholder="First Name"
+            placeholder="User Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             style={styles.input}
           />
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            style={styles.input}
-          />
+          
         </div>
 
         {/* Language and Role */}
