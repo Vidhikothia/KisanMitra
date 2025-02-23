@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId(), unique: true },
   username: { type: String, required: true },
   email: { type: String },
   phone_number: { type: String,default: null},

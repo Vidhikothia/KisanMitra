@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const feedbackSchema = new mongoose.Schema({
-  feedback_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId() 
-  }, // Primary Key
+  // Primary Key
   user_id: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 

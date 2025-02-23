@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const articleSchema = new mongoose.Schema({
-  article_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId() 
-  }, // Primary Key
+  // Primary Key
   content_id: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Content', 
@@ -13,7 +10,7 @@ const articleSchema = new mongoose.Schema({
   content: { 
     type: String, 
     required: true 
-  }, // Full article content
+  }, // Full article content 
 }, { timestamps: true });
 
 module.exports = mongoose.model('Article', articleSchema);

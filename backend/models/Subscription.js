@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
-  subscription_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId() 
-  }, // Primary Key
+   // Primary Key
   user_id: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
