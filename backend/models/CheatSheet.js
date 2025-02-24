@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 
 // Cheat Sheet Schema
 const cheatSheetSchema = new mongoose.Schema({
-  cheatsheet_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId() 
-  }, // Primary Key
+   // Primary Key
   user_id: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
