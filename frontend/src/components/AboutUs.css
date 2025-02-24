@@ -1,71 +1,110 @@
 .about-us {
-    background-color: #f7f7f7;
-    padding: 80px 20px;
-    text-align: center;
-  }
-  
-  .about-us .container {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .about-us .heading {
-    font-size: 3rem;
-    color: #2d7a35;
-    margin-bottom: 30px;
-  }
-  
-  .about-us .content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .about-us .text {
-    flex: 1;
-    margin-right: 20px;
-    color: #555;
-    font-size: 1.2rem;
-    line-height: 1.8;
-  }
-  
-  .about-us .text p {
-    margin-bottom: 20px;
-  }
-  
-  .about-us .image {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .about-us .image img {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  .about-us .image img {
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .about-us strong {
-    color: #2d7a35; /* Highlight brand color */
-  }
-  
-  @media (max-width: 768px) {
-    .about-us .content {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .about-us .text {
-      margin-right: 0;
-    }
-  
-    .about-us .image {
-      margin-top: 20px;
-    }
-  }
-  
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.8;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  /* margin-bottom: 1rem; */
+  flex-wrap: wrap;
+}
+
+.text {
+  flex: 1;
+  max-width: 600px;
+  background: linear-gradient(135deg, #fff, #f3f3f3);
+  padding: 2rem;
+  border-left: 5px solid #2a9d8f;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.text:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+.text p {
+  margin-top: 0.3rem;
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+.text .intro {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2a9d8f;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.image {
+  flex: 1;
+  max-width: 700px;
+}
+
+.image img {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #2a9d8f;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.meet-the-team {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.team-member img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border: 4px solid #2a9d8f;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-member h4 {
+  font-size: 1.2rem;
+  color: #2a9d8f;
+}
+
+.team-member img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
