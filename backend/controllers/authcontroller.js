@@ -1,18 +1,21 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Educator = require('../models/Educator');
 require('dotenv').config();
 const twilio = require('twilio');
 
 
 // Function to create JWT token
-const generateToken = (user) => {
+const generateToken = async (user) => {
+  const educator = await Educator.findOne({ user_id: user._id });
     return jwt.sign(
       {
         userId: user._id,
         role: user.role,
         preferred_language: user.preferred_language,
         isPremium: user.isPremium,
+        educatorId: educator ? educator._id : null,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
@@ -45,15 +48,7 @@ const generateToken = (user) => {
       });
   
       // Generate token & send response
-      const token = generateToken( user);
-      
-
-      // res.cookie("token", token, {
-      //   httpOnly: true,
-      //   secure: process.env.NODE_ENV === "production",
-      //   sameSite: "strict",
-      //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      // });
+      const token = await generateToken( user);
       res.status(201).json({ message: "User registered successfully", user,token });
     } catch (error) {
       res.status(500).json({ message: "Error registering user", error: error.message });
@@ -77,8 +72,8 @@ const generateToken = (user) => {
         }
 
         // Generate token & send response
-        const token = generateToken(user);
-
+        const token = await generateToken(user);
+        console.log(token);
         // Set cookie with dynamic maxAge based on "Remember Me"
         res.cookie("token", token, {
             httpOnly: true,
@@ -138,7 +133,7 @@ const verifyOtp = async (req, res) => {
             }
 
             // Generate JWT Token
-            const token = generateToken(user);
+            const token =await generateToken(user);
 
             // Set cookie with dynamic maxAge based on "Remember Me"
             res.cookie("token", token, {

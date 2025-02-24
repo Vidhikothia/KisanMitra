@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const contentSchema = new mongoose.Schema({
-  content_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId() 
-  }, // Primary Key
+   // Primary Key
 
   content_type: { 
     type: String, 
