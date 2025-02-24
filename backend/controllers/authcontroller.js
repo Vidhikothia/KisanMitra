@@ -21,7 +21,7 @@ const generateToken = (user) => {
 
   const register = async (req, res) => {
     try {
-      const { username, email,phone_number , password, role, preferred_language } = req.body;
+      const { username, email,phone_number , password, role, preferred_language,state, city } = req.body;
   
       // Check if user exists
       const existingUser = await User.findOne({ email });
@@ -40,19 +40,20 @@ const generateToken = (user) => {
         password:hashedPassword,
         role,
         preferred_language,
-        
+        state: state || null, // Assign null if not provided
+        city: city || null,
       });
   
       // Generate token & send response
       const token = generateToken( user);
       
 
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   sameSite: "strict",
+      //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      // });
       res.status(201).json({ message: "User registered successfully", user,token });
     } catch (error) {
       res.status(500).json({ message: "Error registering user", error: error.message });
@@ -84,8 +85,8 @@ const generateToken = (user) => {
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: rememberMe 
-                ? 30 * 24 * 60 * 60 * 1000 // 30 days
-                : 7 * 24 * 60 * 60 * 1000,  // 7 days
+                ? 2 * 24 * 60 * 60 * 1000 // 30 days
+                : 1 * 24 * 60 * 60 * 1000,  // 7 days
         });
 
         res.json({ message: "Login successful", user, token });

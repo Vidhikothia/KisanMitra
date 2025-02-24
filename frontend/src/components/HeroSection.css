@@ -1,5 +1,5 @@
 .hero-section {
-  background: url("C:\Users\Vidhi\OneDrive\Desktop\sem6\KisanMitra\frontend\src\components\farm.jpg") center/cover no-repeat;
+  background: url("D:\SEM6\sdp\Kisan Mitra\frontend\src\components/farm.jpg") center/cover no-repeat;
   height: 100vh; /* Full viewport height */
   display: flex; /* Center content vertically and horizontally */
   flex-direction: column;
