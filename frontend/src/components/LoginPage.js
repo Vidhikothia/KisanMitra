@@ -160,7 +160,18 @@ const LoginPage = () => {
               <button type="submit">Verify OTP</button>
             </>
           )}
+          
         </form>
+        <p>
+  Don't have an account?{' '}
+  <span 
+    className="signup-link" 
+    onClick={() => navigate('/register')} 
+    style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+  >
+    Sign Up
+  </span>
+</p>
 
       </div>
     </div>
