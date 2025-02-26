@@ -134,6 +134,16 @@ const RegisterPage = () => {
 
         <button type="submit" style={styles.button}>Register</button>
       </form>
+      <p>
+  Already signed up?{' '}
+  <span 
+    className="signup-link" 
+    onClick={() => navigate('/login')} 
+    style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+  >
+    Login
+  </span>
+</p>
     </div>
   );
 };
