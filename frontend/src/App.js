@@ -7,6 +7,8 @@ import VideoCards from "./components/VideoCards";
 import Footer from "./components/Footer";
 import LoginPage from "./components/LoginPage";
 import "./App.css";
+import ManageProfile from './components/ManageProfile';
+
 import RegisterPage from "./components/RegisterPage";
 import ArticlePage from "./components/ArticlePage";
 import CheatsheetPage from "./components/CheatsheetPage";
@@ -52,6 +54,8 @@ const App = () => {
         <Route path="/videouploadform" element={<VideoUploadForm />}/>
         <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />}/>
         <Route path="/articleuploadform" element={<ArticleUploadForm />}/>
+        <Route path="/manageprofile" element={<ManageProfile />} />
+
 
       </Routes>
     </Router>
