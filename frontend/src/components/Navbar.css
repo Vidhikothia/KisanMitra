@@ -1,53 +1,64 @@
+/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  transition: box-shadow 0.3s; /* Smooth transition for shadow */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Add shadow below navbar */
-  position: sticky; /* Make navbar sticky */
-  top: 0; /* Stick to the top of the viewport */
-  z-index: 1000; /* Ensure it stays above other elements */
-  background: white; /* Keep white background */
+  transition: box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
 }
 
 .navbar.scrolled {
-  background: white; /* Keep background white when scrolled */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Slightly darker shadow when scrolled */
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
+/* Center Navbar Links Vertically */
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 30px; /* Increased gap between links */
+  gap: 30px;
+  align-items: center; /* Vertically center links */
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li {
   position: relative;
   cursor: pointer;
+  display: flex;
+  align-items: center; /* Center text within list items */
 }
 
 .nav-links a {
   text-decoration: none;
   color: inherit;
-  font-size: 1.1rem; /* Increased font size */
-  font-weight: 500; /* Optional: makes the text slightly bolder */
-  transition: color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+  line-height: 1; /* Avoids extra spacing above/below text */
+  padding: 10px 0; /* Adds vertical padding for balanced spacing */
 }
 
+
 .nav-links a:hover {
-  color: #2a8473; /* Change color on hover */
-  transform: translateY(-2px); /* Slightly lift the text */
+  color: #2a8473;
+  transform: translateY(-2px);
 }
 
 .kisanmitra {
-  width: 100px; /* Set the desired width */
-  height: auto; /* Maintain aspect ratio */
-  max-width: 100%; /* Ensure it stays responsive */
-  display: block; /* Optional: ensures the logo behaves as a block element */
-  margin: 0 auto; /* Optional: centers the logo if needed */
+  width: 100px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
+/* Main Dropdown Menu Styles */
 .dropdown {
   position: absolute;
   top: 100%;
@@ -56,19 +67,115 @@
   background-color: #ffffff;
   border: 1px solid #ddd;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Shadow for dropdown */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  min-width: 150px;
+  padding: 10px 0;
+  overflow: hidden; /* Ensure sub-dropdown stays within boundaries */
 }
 
-.nav-links li:hover .dropdown {
+/* Show Dropdown on Hover */
+.nav-links li:hover > .dropdown,
+.profile-menu:hover > .dropdown {
   display: block;
 }
 
+/* Dropdown Item Styles */
 .dropdown li {
-  padding: 5px 15px;
+  padding: 8px 15px;
   white-space: nowrap;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 .dropdown li:hover {
   background-color: #f1f1f1;
+}
+
+/* Nested Dropdown Styles */
+.educator-dropdown {
+  position: relative;
+}
+
+/* Sub-Dropdown within Main Dropdown */
+.sub-dropdown {
+  position: relative; /* Relative to the parent dropdown */
+  margin-left: 10px; /* Indent inside the main dropdown */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  z-index: 15;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  min-width: 150px;
+  padding: 10px 0;
+  display: none;
+}
+
+/* Show Sub-Dropdown on Hover */
+.educator-dropdown:hover > .sub-dropdown {
+  display: block;
+}
+
+/* Profile Menu Styles */
+.profile-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-photo {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  padding: 2px; /* Ensures padding is consistent with other elements */
+  margin: 0; /* Removes any default margin */
+  vertical-align: middle; /* Aligns the image properly in the navbar */
+}
+
+
+.profile-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.navbar.dark {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.dropdown.dark {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+.dropdown li:hover {
+  background-color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+    background-color: white;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+
+  .navbar.scrolled .nav-links {
+    display: flex;
+  }
 }
