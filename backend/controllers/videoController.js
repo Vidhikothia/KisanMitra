@@ -14,6 +14,7 @@ exports.uploadVideo = async (req, res) => {
         if (!educator) return res.status(403).json({ message: "Only educators can upload videos." });
 
         if (!req.files || !req.files.video) return res.status(400).json({ message: "Video file is required." });
+        if (!req.files || !req.files.thumbnail) return res.status(400).json({ message: "Thumbnail is required." });
 
         // ✅ Upload video to Cloudinary
         const videoResult = await cloudinary.uploader.upload(req.files.video[0].path, {

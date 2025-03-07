@@ -192,9 +192,14 @@ const verifyOtp = async (req, res) => {
 };
   
   // ✅ **User Logout**
+  // const logout = (req, res) => {
+  //   res.cookie("token", "", { httpOnly: true, expires: new Date(0) });
+  //   res.json({ message: "Logged out successfully" });
+  // };
   const logout = (req, res) => {
-    res.cookie("token", "", { httpOnly: true, expires: new Date(0) });
-    res.json({ message: "Logged out successfully" });
+    res.clearCookie("token", { httpOnly: true, sameSite: "Strict" }); // Clear token cookie
+    res.status(200).json({ message: "Logged out successfully" });
   };
+  
   
   module.exports = { register, login, sendOtp ,verifyOtp, logout };

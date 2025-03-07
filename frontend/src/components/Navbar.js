@@ -45,11 +45,26 @@ const Navbar = () => {
   }, [isDarkMode]);
 
   // Handle Logout
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    sessionStorage.clear();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/auth/logout", {
+        method: "POST",
+        credentials: "include", // Important: Sends cookies with the request
+      });
+  
+      if (response.ok) {
+        // Clear token from storage
+        // localStorage.removeItem("authToken");
+        // sessionStorage.clear();
+        navigate("/login"); // Redirect to login
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
+  
 
   // Toggle Profile Dropdown
   const toggleProfile = () => {
@@ -94,7 +109,7 @@ const Navbar = () => {
             <ul className="dropdown">
             <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
             <li>
-              <a href="#logout" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+              <a href="logout" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                 <FaSignOutAlt /> Logout
               </a>
             </li>
