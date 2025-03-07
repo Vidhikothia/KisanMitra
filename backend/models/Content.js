@@ -15,7 +15,8 @@ const contentSchema = new mongoose.Schema({
   }, // Content title
 
   description: { 
-    type: String 
+    type: String,
+    maxlength: 500 
   }, // Content description
 
   creator: { 

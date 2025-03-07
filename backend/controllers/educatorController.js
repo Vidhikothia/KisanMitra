@@ -9,6 +9,7 @@ exports.createEducator = async (req, res) => {
     try {
         let photoUrl = null;
         const userId = req.user._id;
+        const { bio } = req.body;
         console.log("Extracted userId from JWT:", userId);
         // Handle photo upload if a file is provided
         if (req.file) {
@@ -23,7 +24,8 @@ exports.createEducator = async (req, res) => {
         // Create the educator object using authenticated user's ID
         const newEducator = new Educator({
             user_id: new mongoose.Types.ObjectId(userId), // Use the ID from the authenticated user
-            photo: photoUrl
+            photo: photoUrl,
+            bio: bio || null
         });
 
         // Save the educator to the database
