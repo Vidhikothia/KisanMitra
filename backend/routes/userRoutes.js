@@ -3,13 +3,16 @@ const router = express.Router();
 const educatorController = require('../controllers/educatorController');
 const upload = require('../config/multerConfig');
 const protect = require('../middleware/authMiddleware');
+const { updateUser, getUserById, deleteUser } = require('../controllers/userController');
 
-// Route to create an educator with JWT authentication and optional photo upload
 router.post(
     '/create-educator',
-    protect,                  // Check for valid JWT token
-    upload.single('photo'),   // Handle optional photo upload
+    protect,                  
+    upload.single('photo'),   
     educatorController.createEducator
 );
+router.put('/update', protect, updateUser); // Update user
+router.get('/:id', protect, getUserById); // Get user by ID
+router.delete('/delete', protect, deleteUser); // Delete user
 
 module.exports = router;
