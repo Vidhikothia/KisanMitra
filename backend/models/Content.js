@@ -20,15 +20,15 @@ const contentSchema = new mongoose.Schema({
 
   creator: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
+    ref: 'Educator', 
     required: true 
   }, // Foreign Key linking to User table
 
   access_type: { 
     type: String, 
-    enum: ['premium', 'standard'], 
-    default: 'standard' 
-  }, // Access type (instead of two boolean fields)
+    enum: ['premium', 'standard', 'basic'],  // Ensure "basic" is in the enum list
+    default: 'basic' 
+  },// Access type (instead of two boolean fields)
 
   uploaded_date: { 
     type: Date, 
@@ -38,11 +38,6 @@ const contentSchema = new mongoose.Schema({
   category: { 
     type: String 
   }, // Optional field to categorize the content
-
-  video_url: { 
-    type: String, 
-    required: true 
-  }, // Cloudinary Video URL
 
 }, { timestamps: true });
 
