@@ -1,86 +1,139 @@
 /* General Page Styles */
 .videos-page {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-  }
-  
-  .videos-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #222;
-  }
-  
-  /* Videos Container */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Container for Videos */
+.videos-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Video Card */
+.video-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 350px;
+  height:180px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Thumbnail Overlay */
+.thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-overlay .play-button {
+  position: absolute;
+  font-size: 50px;
+  color: white;
+  opacity: 0.8;
+}
+
+/* Video */
+.video-player {
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Video Info */
+.video-info {
+  padding: 15px;
+}
+
+.video-title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #0073e6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.video-description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Video Actions */
+.video-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.video-actions button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.video-actions .like-btn:hover {
+  background: #ffdddd;
+}
+
+.video-actions .share-btn:hover {
+  background: #ddeeff;
+}
+
+.video-actions .more-btn:hover {
+  background: #eee;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) { /* Adjust for smaller screens */
   .videos-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    justify-items: center;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
   }
-  
-  /* Video Card */
+}
+@media (max-width: 600px) {
+  .videos-container {
+    grid-template-columns: 1fr;
+  }
+
   .video-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-    max-width: 300px;
+    max-width: 100%;
   }
-  
-  .video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Thumbnail */
-  .video-thumbnail {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-  
-  /* Video Info */
-  .video-info {
-    padding: 15px;
-  }
-  
-  .video-title {
-    font-size: 16px;
-    margin-bottom: 8px;
-    color: #0073e6;
-    cursor: pointer;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  
-  .video-title:hover {
-    text-decoration: underline;
-  }
-  
-  .video-description {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 10px;
-    height: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  /* Video Meta */
-  .video-meta {
-    font-size: 12px;
-    color: #777;
-  }
-  
-  .video-date,
-  .video-educator {
-    margin-bottom: 5px;
-  }
-  
+
+}

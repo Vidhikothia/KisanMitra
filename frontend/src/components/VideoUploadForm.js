@@ -5,41 +5,46 @@ import "./VideoUploadForm.css";
 const VideoUploadForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [creator, setCreator] = useState(''); // Replace with actual user ID from auth
   const [category, setCategory] = useState('');
-  const [isPremium, setIsPremium] = useState(false);
+  const [accessType, setAccessType] = useState('basic');
   const [video, setVideo] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Handle file change
-  const handleFileChange = (e) => {
+  // Handle file change for video
+  const handleVideoChange = (e) => {
     setVideo(e.target.files[0]);
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Handle file change for thumbnail
+  const handleThumbnailChange = (e) => {
+    setThumbnail(e.target.files[0]);
+  };
 
-    if (!video) {
-      setMessage('Please select a video file.');
+  // Handle form submission
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!video || !thumbnail) {
+      setMessage('Please select both a video and a thumbnail image.');
       return;
     }
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('creator', creator);
+    formData.append('access_type', accessType);
     formData.append('category', category);
-    formData.append('is_premium', isPremium);
     formData.append('video', video);
+    formData.append('thumbnail', thumbnail);
 
     try {
       setUploading(true);
-      const response = await axios.post('http://localhost:5000/api/content/upload', formData, {
+      const response = await axios.post('http://localhost:5000/content/upload_video', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       });
 
       setMessage(response.data.message);
@@ -54,16 +59,32 @@ const VideoUploadForm = () => {
     <div className="upload-container">
       <h2>Upload Video</h2>
       {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleUpload}>
         <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-        <input type="text" placeholder="Creator ID" value={creator} onChange={(e) => setCreator(e.target.value)} required />
         <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} />
-        <label>
-          <input type="checkbox" checked={isPremium} onChange={() => setIsPremium(!isPremium)} />
-          Premium Content
-        </label>
-        <input type="file" accept="video/*" onChange={handleFileChange} required />
+
+        <div>
+          <label>
+            <input type="radio" name="accessType" value="basic" checked={accessType === 'basic'} onChange={() => setAccessType('basic')} />
+            Basic
+          </label>
+          <label>
+            <input type="radio" name="accessType" value="standard" checked={accessType === 'standard'} onChange={() => setAccessType('standard')} />
+            Standard
+          </label>
+          <label>
+            <input type="radio" name="accessType" value="premium" checked={accessType === 'premium'} onChange={() => setAccessType('premium')} />
+            Premium
+          </label>
+        </div>
+
+        <label>Upload Video:</label>
+        <input type="file" accept="video/*" onChange={handleVideoChange} required />
+
+        <label>Upload Thumbnail:</label>
+        <input type="file" accept="image/*" onChange={handleThumbnailChange} required />
+
         <button type="submit" disabled={uploading}>{uploading ? 'Uploading...' : 'Upload Video'}</button>
       </form>
     </div>
