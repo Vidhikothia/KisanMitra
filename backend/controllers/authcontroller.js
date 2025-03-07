@@ -55,39 +55,74 @@ const generateToken = async (user) => {
     }
   };
 
-  const login = async (req, res) => {
-    try {
-        const { email, password, rememberMe } = req.body; // Added rememberMe
+//   const login = async (req, res) => {
+//     try {
+//         const { email, password, rememberMe } = req.body; // Added rememberMe
 
-        // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ message: "Invalid email" });
-        }
+//         // Find user by email
+//         const user = await User.findOne({ email });
+//         if (!user) {
+//             return res.status(401).json({ message: "Invalid email" });
+//         }
 
-        // Check password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
+//         // Check password
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) {
+//             return res.status(401).json({ message: "Invalid password" });
+//         }
 
-        // Generate token & send response
-        const token = await generateToken(user);
-        console.log(token);
-        // Set cookie with dynamic maxAge based on "Remember Me"
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: rememberMe 
-                ? 2 * 24 * 60 * 60 * 1000 // 30 days
-                : 1 * 24 * 60 * 60 * 1000,  // 7 days
-        });
+//         // Generate token & send response
+//         const token = await generateToken(user);
+//         console.log(token);
+//         // Set cookie with dynamic maxAge based on "Remember Me"
+//         res.cookie("token", token, {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === "production",
+//             sameSite: "strict",
+//             maxAge: rememberMe 
+//                 ? 2 * 24 * 60 * 60 * 1000 // 30 days
+//                 : 1 * 24 * 60 * 60 * 1000,  // 7 days
+//         });
 
-        res.json({ message: "Login successful", user, token });
-    } catch (error) {
-        res.status(500).json({ message: "Error logging in", error: error.message });
-    }
+//         res.json({ message: "Login successful", user, token });
+//     } catch (error) {
+//         res.status(500).json({ message: "Error logging in", error: error.message });
+//     }
+// };
+const login = async (req, res) => {
+  try {
+      const { email, password, rememberMe } = req.body; // Extract data
+
+      // Find user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(401).json({ message: "Invalid email" });
+      }
+
+      // Ensure password is a string before comparing
+      const isMatch = await bcrypt.compare(String(password), user.password);
+      if (!isMatch) {
+          return res.status(401).json({ message: "Invalid password" });
+      }
+
+      // Generate JWT token
+      const token = await generateToken(user);
+
+      // Set cookie with dynamic expiration
+      res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: rememberMe 
+              ? 30 * 24 * 60 * 60 * 1000 // 30 days
+              : 7 * 24 * 60 * 60 * 1000,  // 7 days
+      });
+
+      res.json({ message: "Login successful", user, token });
+
+  } catch (error) {
+      res.status(500).json({ message: "Error logging in", error: error.message });
+  }
 };
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);

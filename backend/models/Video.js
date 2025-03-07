@@ -7,22 +7,31 @@ const videoSchema = new mongoose.Schema({
     ref: 'Content', 
     required: true 
   }, // Foreign Key linking to Content table
+
   view_count: { 
     type: Number, 
     default: 0 
   }, // Number of times the video has been viewed
+
   like_count: { 
     type: Number, 
     default: 0 
   }, // Number of likes on the video
+
   saved_count: { 
     type: Number, 
     default: 0 
   }, // Number of times the video has been saved
+
   video_url: { 
     type: String, 
     required: true 
   }, // URL pointing to the video file
+
+  thumbnail_url: { 
+    type: String
+  }, // URL for the thumbnail image
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Video', videoSchema);
