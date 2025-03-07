@@ -71,7 +71,17 @@ exports.getVideoById = async (req, res) => {
 // 🔍 Get All Videos
 exports.getAllVideos = async (req, res) => {
     try {
-        const videos = await Video.find().populate('content_id');
+        const videos = await Video.find()
+            .populate({
+                path: 'content_id',
+                populate: {
+                    path: 'creator', // 'creator' field in Content links to Educator
+                    populate: {
+                        path: 'user_id', // 'user_id' field in Educator links to User
+                        select: 'username' // Get only the username from User model
+                    }
+                }
+            });
         res.json(videos);
     } catch (error) {
         res.status(500).json({ message: "Error fetching videos", error: error.message });
