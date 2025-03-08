@@ -93,8 +93,8 @@ const Videos = () => {
 
                 <div className="video-actions">
                   <button className="like-btn">👍 Like</button>
-                  <button className="share-btn">🔗 Share</button>
-                  <button className="more-btn">⋮ More</button>
+                  <button className="share-btn">🚀 Share</button>
+                  <button className="more-btn">ℹ️ More</button>
                 </div>
               </div>
             </div>
