@@ -1,139 +1,138 @@
-/* General Page Styles */
+/* General Page Styling */
 .videos-page {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  display: flex;
+  justify-content: center;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding: 20px 0;
 }
 
-/* Container for Videos */
+/* Videos Container */
 .videos-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
-  justify-items: center;
+  width: 90%;
+  max-width: 1400px;
 }
 
 /* Video Card */
 .video-card {
-  background: #fff;
+  background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 100%;
-  max-width: 350px;
-  height:180px;
   cursor: pointer;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .video-card:hover {
-  transform: scale(1.2);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Thumbnail Overlay */
 .thumbnail-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  aspect-ratio: 16 / 9;
+  background-color: #ddd;
   display: flex;
-  align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  transition: opacity 0.3s ease;
+  align-items: center;
+  overflow: hidden;
 }
 
-.thumbnail-overlay img {
+.video-thumbnail {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.thumbnail-overlay .play-button {
+.play-button {
   position: absolute;
-  font-size: 50px;
+  font-size: 3rem;
   color: white;
-  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px 20px;
+  border-radius: 50%;
+  transition: background 0.2s;
 }
 
-/* Video */
+.video-card:hover .play-button {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Video Player */
 .video-player {
-  width: 100%;
-  border-radius: 5px;
+  display: none; /* Hide video element by default */
 }
 
 /* Video Info */
 .video-info {
-  padding: 15px;
+  padding: 12px;
 }
 
 .video-title {
-  font-size: 18px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
   margin-bottom: 5px;
-  color: #0073e6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .video-description {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 10px;
-  height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
 }
 
-/* Video Actions */
+/* Video Meta & Actions */
+.video-meta {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.video-date {
+  margin-bottom: 4px;
+}
+
+.video-educator {
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+/* Action Buttons */
 .video-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+  gap: 8px;
 }
 
 .video-actions button {
-  background: none;
   border: none;
-  font-size: 14px;
+  background: none;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 5px;
-  transition: background 0.2s;
+  padding: 5px;
+  transition: color 0.2s;
 }
 
-.video-actions .like-btn:hover {
-  background: #ffdddd;
+.like-btn {
+  color: red;
 }
 
-.video-actions .share-btn:hover {
-  background: #ddeeff;
+.share-btn {
+  color: blue;
 }
 
-.video-actions .more-btn:hover {
-  background: #eee;
+.more-btn {
+  color: #555;
 }
 
 /* Responsive Design */
-@media (max-width: 900px) { /* Adjust for smaller screens */
+@media (max-width: 768px) {
   .videos-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
-}
-@media (max-width: 600px) {
-  .videos-container {
-    grid-template-columns: 1fr;
-  }
-
-  .video-card {
-    max-width: 100%;
-  }
-
 }

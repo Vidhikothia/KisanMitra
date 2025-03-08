@@ -1,8 +1,10 @@
 import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Mantra.css";
 
 const Mantra = () => {
-  // List of 10 mantras
   const mantras = [
     "“The best fertilizer is the farmer's shadow.”",
     "“Agriculture is the foundation of civilization.”",
@@ -16,12 +18,26 @@ const Mantra = () => {
     "“In every grain of rice, there's a farmer's care.”"
   ];
 
-  // Function to select a random mantra
-  const randomMantra = mantras[Math.floor(Math.random() * mantras.length)];
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+  };
 
   return (
-    <div className="mantra">
-      <p>{randomMantra}</p>
+    <div className="mantra-carousel">
+      <Slider {...settings}>
+        {mantras.map((quote, index) => (
+          <div key={index} className="mantra-slide">
+            <p>{quote}</p>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 /* Footer Container */
 .footer {
-  background-color: #327a4b; /* Adjust the color as needed */
+  background-color: #8B5A2B; /* Adjust the color as needed */
   color: #fff;
   padding:200px 20px 10px;
   position: relative;
@@ -30,7 +30,10 @@
 
 /* Footer Content */
 .footer-content {
-  flex: 1;
+  display: flex;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+  /* flex: 1; */
   max-width: 300px;
   z-index: 2;
 }

@@ -109,7 +109,7 @@ const Navbar = () => {
             <ul className="dropdown">
             <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
             <li>
-              <a href="logout" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+              <a href="/login" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                 <FaSignOutAlt /> Logout
               </a>
             </li>
