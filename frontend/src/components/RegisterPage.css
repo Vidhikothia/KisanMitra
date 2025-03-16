@@ -1,0 +1,60 @@
+/* RegisterForm.css - Additional styles for the register form */
+
+/* Error and Success Messages */
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-left: 3px solid #ff0000;
+    color: #ff0000;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .success-message {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left: 3px solid #4CAF50;
+    color: #2c5e1a;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  /* Select Field Styling */
+  .select-field select {
+    width: 100%;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.3s;
+    color: #333;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0 top 50%;
+  }
+  
+  .select-field select:focus {
+    border-bottom: 2px solid #4CAF50;
+  }
+  
+  .select-field select option {
+    padding: 10px;
+  }
+  
+  /* Make the form a bit more compact for more fields */
+  .kisan-login-form {
+    gap: 1.2rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .select-field select {
+      background-position: right 10px top 50%;
+    }
+  }
