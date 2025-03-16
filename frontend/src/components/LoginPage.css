@@ -1,69 +1,171 @@
-/* Container Styling */
-.login-form-container {
+/* Kisan Mitra Login Form Styles */
+.kisan-login-container {
   display: flex;
-  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Left Side - Farm Tools Illustration */
+.kisan-login-left {
+  flex: 1;
+  background-color: #222;
+  background-image: url('https://img.freepik.com/premium-photo/young-indian-farmer-standing-agriculture-field_54391-4737.jpg?w=740');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Right Side - Login Form */
+.kisan-login-right {
+  flex: 1;
+  background-color: #f8f8f8;
+  display: flex;
   align-items: center;
-  height: 150vh;
-  background-color: #f7f7f7;
+  justify-content: center;
+  padding: 2rem;
 }
 
-/* Form Styling */
-.login-form {
+.login-form-wrapper {
   width: 100%;
-  max-width: 400px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  padding: 2rem;
+}
+
+.login-heading {
+  font-size: 2.2rem;
+  color: #2c5e1a;
+  margin-bottom: 2.5rem;
   text-align: center;
+  font-weight: 600;
 }
 
-/* Input Field Styling */
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+/* Form Styles */
+.kisan-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Button Styling */
-button {
+.form-field {
+  position: relative;
+}
+
+.form-field input {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 0.8rem 0;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  background-color: transparent;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-field input:focus {
+  border-bottom: 2px solid #4CAF50;
+}
+
+.form-field input::placeholder {
+  color: #888;
+  font-weight: 500;
+}
+
+/* Form Options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.remember-me input {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+
+.forgot-password {
+  color: #2c5e1a;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Login Button */
+.login-btn {
+  padding: 0.8rem;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
 }
 
-button:hover {
-  background-color: #0056b3;
+.login-btn:hover {
+  background-color: #2e7d32;
 }
 
-/* Remember Me Styling */
-label {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin: 5px 0;
+/* Login Method Switch */
+.login-method-switch {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-input[type="checkbox"] {
-  margin-right: 5px;
+.login-method-switch p {
+  color: #2c5e1a;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
 }
 
-/* Sign Up Link */
+/* Sign up prompt */
+.signup-prompt {
+  text-align: center;
+  margin-top: 2rem;
+  color: #555;
+}
+
 .signup-link {
-  color: #007bff;
+  color: #2c5e1a;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
 }
 
 .signup-link:hover {
   text-decoration: underline;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .kisan-login-container {
+    flex-direction: column;
+  }
+  
+  .kisan-login-left {
+    height: 30vh;
+  }
+  
+  .kisan-login-right {
+    padding: 1rem;
+  }
+  
+  .login-form-wrapper {
+    padding: 1rem;
+  }
 }

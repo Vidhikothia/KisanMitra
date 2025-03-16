@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import "./Videos.css"; // Importing updated CSS
+import "./Videos.css";
 
 const Videos = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const videoRefs = useRef({}); // Storing video refs to control fullscreen
+  const videoRefs = useRef({});
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -22,25 +22,81 @@ const Videos = () => {
         setLoading(false);
       }
     };
-
     fetchVideos();
   }, []);
 
-  const handleFullScreen = (videoId) => {
+  const handleVideoClick = (videoId, event) => {
+    event.stopPropagation(); // Prevent the click from bubbling up to the card
     const video = videoRefs.current[videoId];
+    
     if (video) {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.mozRequestFullScreen) {
-        video.mozRequestFullScreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
-      video.play();
+      // Make the video visible before attempting fullscreen
+      video.style.display = "block";
+      
+      // Start playing the video
+      video.play()
+        .then(() => {
+          // Request fullscreen after play has started
+          if (video.requestFullscreen) {
+            video.requestFullscreen();
+          } else if (video.mozRequestFullScreen) {
+            video.mozRequestFullScreen();
+          } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+          } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+          }
+        })
+        .catch(err => {
+          console.error("Error playing video:", err);
+        });
     }
   };
+
+  // Handle exiting fullscreen
+  const handleFullscreenChange = (videoId) => {
+    const video = videoRefs.current[videoId];
+    if (video && !(document.fullscreenElement || 
+                   document.webkitFullscreenElement || 
+                   document.mozFullScreenElement || 
+                   document.msFullscreenElement)) {
+      // Hide the video when exiting fullscreen
+      video.style.display = "none";
+      video.pause();
+    }
+  };
+
+  useEffect(() => {
+    // Add fullscreenchange event listeners
+    const fullscreenChangeEvents = [
+      'fullscreenchange',
+      'webkitfullscreenchange',
+      'mozfullscreenchange',
+      'MSFullscreenChange'
+    ];
+
+    // Add listeners for all video elements
+    videos.forEach(video => {
+      const videoElement = videoRefs.current[video._id];
+      if (videoElement) {
+        fullscreenChangeEvents.forEach(eventName => {
+          videoElement.addEventListener(eventName, () => handleFullscreenChange(video._id));
+        });
+      }
+    });
+
+    // Clean up event listeners
+    return () => {
+      videos.forEach(video => {
+        const videoElement = videoRefs.current[video._id];
+        if (videoElement) {
+          fullscreenChangeEvents.forEach(eventName => {
+            videoElement.removeEventListener(eventName, () => handleFullscreenChange(video._id));
+          });
+        }
+      });
+    };
+  }, [videos]);
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -49,13 +105,12 @@ const Videos = () => {
     <div className="videos-page">
       <div className="videos-container">
         {videos.map((video) => (
-          <div
-            className="video-card"
-            key={video._id}
-            onClick={() => handleFullScreen(video._id)} // Click to full screen
-          >
+          <div className="video-card" key={video._id}>
             {/* Thumbnail Overlay */}
-            <div className="thumbnail-overlay">
+            <div 
+              className="thumbnail-overlay"
+              onClick={(e) => handleVideoClick(video._id, e)}
+            >
               <img
                 src={video.thumbnail_url || "default-thumbnail.jpg"}
                 alt="Thumbnail"
@@ -63,8 +118,8 @@ const Videos = () => {
               />
               <div className="play-button">▶</div>
             </div>
-
-            {/* Video */}
+            
+            {/* Video - hidden by default via CSS */}
             <video
               ref={(el) => (videoRefs.current[video._id] = el)}
               className="video-player"
@@ -73,14 +128,13 @@ const Videos = () => {
               <source src={video.video_url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-
+            
             {/* Video Info */}
             <div className="video-info">
               <h2 className="video-title">{video.content_id?.title || "Untitled Video"}</h2>
               <p className="video-description">
                 {video.content_id?.description || "No description available."}
               </p>
-
               {/* Video Meta & Actions */}
               <div className="video-meta">
                 <p className="video-date">
@@ -90,15 +144,13 @@ const Videos = () => {
                     : "Unknown"}
                 </p>
                 <p className="video-educator">Educator: {video.content_id?.creator?.user_id?.username}</p>
-
                 <div className="video-actions">
                   <button className="like-btn">👍 Like</button>
                   <button className="share-btn">🚀 Share</button>
-                  <button className="more-btn">ℹ️ More</button>
+                  <button className="more-btn">ℹ More</button>
                 </div>
               </div>
             </div>
-
           </div>
         ))}
       </div>
