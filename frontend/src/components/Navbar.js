@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css'; 
-import { FaLanguage, FaSun, FaMoon, FaSignOutAlt, FaUser, FaUserEdit } from 'react-icons/fa';
+import { FaLanguage, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaUpload } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import km from "./kisanmitra.png";
 
@@ -8,15 +8,14 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'); // Default placeholder image
+  const [isEducator, setIsEducator] = useState(false); // Track educator status
+  const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'); 
   const navigate = useNavigate();
 
-  // Detect Scroll
   const handleScroll = () => {
     setIsScrolled(window.scrollY > 50);
   };
 
-  // Handle Language Change
   const handleLanguageChange = (langCode) => {
     const googleTranslateDropdown = document.querySelector('.goog-te-combo');
     if (googleTranslateDropdown) {
@@ -25,12 +24,10 @@ const Navbar = () => {
     }
   };
 
-  // Toggle Dark/Light Mode
   const toggleMode = () => {
     setIsDarkMode((prev) => !prev);
   };
 
-  // Apply Dark/Light Theme
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark-mode');
@@ -44,19 +41,15 @@ const Navbar = () => {
     };
   }, [isDarkMode]);
 
-  // Handle Logout
   const handleLogout = async () => {
     try {
       const response = await fetch("http://localhost:5000/auth/logout", {
         method: "POST",
-        credentials: "include", // Important: Sends cookies with the request
+        credentials: "include",
       });
-  
+
       if (response.ok) {
-        // Clear token from storage
-        // localStorage.removeItem("authToken");
-        // sessionStorage.clear();
-        navigate("/login"); // Redirect to login
+        navigate("/login");
       } else {
         console.error("Logout failed");
       }
@@ -64,11 +57,13 @@ const Navbar = () => {
       console.error("Error during logout:", error);
     }
   };
-  
 
-  // Toggle Profile Dropdown
   const toggleProfile = () => {
     setIsProfileOpen((prev) => !prev);
+  };
+
+  const becomeEducator = () => {
+    setIsEducator(true); // When user clicks Become an Educator, this changes the navbar
   };
 
   return (
@@ -81,19 +76,35 @@ const Navbar = () => {
         <li><a href="/aboutus">About Us</a></li>
         <li><a href="/login">Login</a></li>
 
-        <li>
-          <a href="#resources">Resources</a>
-          <ul className="dropdown">
-            <li><a href="/article">Article</a></li>
-            <li><a href="/videos">Video</a></li>
-            <li><a href="/cheatsheet">Cheatsheet</a></li>
-          </ul>
+        {isEducator && (
+          <li>
+            <a href="#uploads"><FaUpload /> Upload</a>
+            <ul className="dropdown">
+              <li><a href="/videouploadform">Upload Video</a></li>
+              <li><a href="/cheatsheetuploadform">Upload Cheatsheet</a></li>
+              <li><a href="/articleuploadform">Upload Article</a></li>
+            </ul>
+          </li>
+        )}
+
+        {!isEducator && (
+          <li>
+            <a href="#become-educator" onClick={becomeEducator}>Become an Educator</a>
+          </li>
+        )}
+
+<li>
+          <a href="#profile" onClick={toggleProfile}><img src={profilePhoto} alt="Profile" className="profile-photo" /></a>
+          {isProfileOpen && (
+            <ul className="dropdown">
+              <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
+              <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
+            </ul>
+          )}
         </li>
 
         <li>
-          <a href="#language">
-            <FaLanguage style={{ marginRight: '5px', height: '25px', width:'25px' }} />
-          </a>
+          <a href="#language"><FaLanguage /></a>
           <ul className="dropdown">
             <li onClick={() => handleLanguageChange('en')}>English</li>
             <li onClick={() => handleLanguageChange('hi')}>Hindi</li>
@@ -101,40 +112,8 @@ const Navbar = () => {
           </ul>
         </li>
 
-        <li className="profile-menu">
-          <a href="#profile" onClick={toggleProfile} style={{ cursor: 'pointer' }}>
-            <img src={profilePhoto} alt="Profile" className="profile-photo" />
-          </a>
-          {isProfileOpen && (
-            <ul className="dropdown">
-            <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
-            <li>
-              <a href="/login" onClick={handleLogout} style={{ cursor: 'pointer' }}>
-                <FaSignOutAlt /> Logout
-              </a>
-            </li>
-            
-            <li className="educator-dropdown">
-              <a href="#educator" style={{ cursor: 'pointer' }}>
-                Become an Educator
-              </a>
-              <ul className="dropdown sub-dropdown">
-                <li><a href="/videouploadform">Upload Video</a></li>
-                <li><a href="/cheatsheetuploadform">Upload Cheatsheet</a></li>
-                <li><a href="/articleuploadform">Upload Article</a></li>
-              </ul>
-            </li>
-            
-            
-          </ul>
-          
-          )}
-        </li>
-
         <li>
-          <a href="#mode" onClick={toggleMode} style={{ cursor: 'pointer' }}>
-            {isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-          </a>
+          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}</a>
         </li>
 
         

@@ -5,43 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Recommendation System</title>
     <style>
-        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            background: url('https://media.istockphoto.com/id/1194235751/vector/fruit-and-berry-background-abstract-food-seamless-pattern-fresh-fruits-wallpaper-with-apple.jpg?s=612x612&w=0&k=20&c=6F3JSemEMGit8LE3DqXFKlIWMIxAba0PT8Quoa_XbtA=');
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             color: #333;
         }
-
         .container {
             width: 90%;
-            max-width: 450px;
+            max-width: 900px;
             background: #ffffff;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             border-radius: 16px;
             padding: 32px;
-            animation: fadeIn 0.5s ease-in-out;
+            display: flex;
+            flex-direction: row;
+            /* Animation */
+            opacity: 0;
+            transform: scale(0.8);
+            animation: zoomIn 0.8s forwards;
         }
-
-        @keyframes fadeIn {
-            from {
+        @keyframes zoomIn {
+            0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.8);
             }
-            to {
+            100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
-        }
+        }          
+
 
         h1 {
             text-align: center;
@@ -49,109 +51,237 @@
             font-size: 28px;
             margin-bottom: 25px;
         }
-
-        p {
-            text-align: center;
-            color: #666;
-            font-size: 16px;
-            margin-bottom: 10px;
+        .form-container {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid #e0e0e0;
         }
-
+        .result-container {
+            flex: 1;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         form {
             display: grid;
             grid-gap: 10px;
         }
-
+        .form-group {
+            position: relative;
+        }
         label {
-            font-size: 14px;
             color: #4caf50;
             font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
         }
-
         input {
             height: 44px;
+            padding: 0 12px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
-            padding: 0 12px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            width: 100%;
         }
-
-        input:focus {
-            outline: none;
-            border-color: #4caf50;
-            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+        .range-display {
+            display: block;
+            color: #757575;
+            font-size: 12px;
+            margin-top: 4px;
         }
-
         button {
             height: 50px;
-            background: linear-gradient(90deg, #4caf50, #81c784);
+            background: linear-gradient(90deg, #418e44, #81c784);
             border: none;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
             color: white;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
+            font-weight: bold;
+            cursor: pointer;    
+            margin-top: 10px;
         }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
         .result {
-            margin-top: 20px;
             text-align: center;
-            font-size: 18px;
             color: #4caf50;
-            padding: 12px;
+            padding: 20px;
+            background: #e8f5e9;
             border: 1px solid #4caf50;
             border-radius: 8px;
-            background: #e8f5e9;
-            animation: fadeIn 0.5s ease-in-out;
+            width: 100%;
+        }
+        .back-arrow {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: rgb(54, 170, 79);
+            border-radius: 8px;
+            transition: background-color 0.3s;
         }
 
-        .note {
-            font-size: 14px;
+        .back-arrow:hover {
+            background-color: #333;
+        }
+
+        .back-arrow svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            stroke: white;
+        }
+
+        .back-arrow span {
+            color: white;
+            font-weight: bold;
+        }
+        .result img {
+            margin-top: 15px;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .placeholder-text {
+            color: #757575;
             text-align: center;
-            color: #888;
-            margin-top: 10px;
+            font-style: italic;
+        }
+        .refresh-button {
+            background: #e0e0e0;
+            color: #555;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .refresh-button svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 450px;
+            }
+            .form-container {
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding-right: 0;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+            .result-container {
+                padding-left: 0;
+            }
         }
     </style>
 </head>
 <body>
+    
     <div class="container">
-        <h1>Find Your Ideal Crop!</h1>
-        <form method="POST" action="/predict">
-            <label for="N">Nitrogen (N)</label>
-            <input type="number" step="any" name="N" required placeholder="Enter Nitrogen value">
-
-            <label for="P">Phosphorous (P)</label>
-            <input type="number" step="any" name="P" required placeholder="Enter Phosphorous value">
-
-            <label for="K">Potassium (K)</label>
-            <input type="number" step="any" name="K" required placeholder="Enter Potassium value">
-
-            <label for="temperature">Temperature (°C)</label>
-            <input type="number" step="any" name="temperature" required placeholder="Enter Temperature">
-
-            <label for="humidity">Humidity (%)</label>
-            <input type="number" step="any" name="humidity" required placeholder="Enter Humidity">
-
-            <label for="pH">pH</label>
-            <input type="number" step="any" name="pH" required placeholder="Enter pH value">
-
-            <label for="rainfall">Rainfall (mm)</label>
-            <input type="number" step="any" name="rainfall" required placeholder="Enter Rainfall">
-
-            <button type="submit">🌟 Predict My Crop</button>
-        </form>
-
-        {% if prediction %}
-        <div class="result"> 🌱 <strong>Recommended Crop:</strong> {{ prediction }} </div>
-        {% endif %}
         
-        <p class="note">* Accurate results depend on input quality.</p>
+        <div class="form-container">
+            <h1>Find Your Ideal Crop!</h1>
+            <button class="refresh-button" onclick="refreshSensorData()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 4v6h-6"></path>
+                    <path d="M1 20v-6h6"></path>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                    <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
+                </svg>
+                Refresh Sensor Data
+            </button>
+            <form method="POST" action="/predict">
+                <div class="form-group">
+                    <label for="N">Nitrogen (N)</label>
+                    <input type="number" id="N" name="N" step="any" value="37" required>
+                    <span class="range-display">Typical range: 0-140 kg/ha</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="P">Phosphorous (P)</label>
+                    <input type="number" id="P" name="P" step="any" value="42" required>
+                    <span class="range-display">Typical range: 5-145 kg/ha</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="K">Potassium (K)</label>
+                    <input type="number" id="K" name="K" step="any" value="18" required>
+                    <span class="range-display">Typical range: 5-205 kg/ha</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="temperature">Temperature (°C)</label>
+                    <input type="number" id="temperature" name="temperature" step="any" value="26.7" required>
+                    <span class="range-display">Typical range: 8-45 °C</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="humidity">Humidity (%)</label>
+                    <input type="number" id="humidity" name="humidity" step="any" value="72" required>
+                    <span class="range-display">Typical range: 14-100 %</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pH">pH</label>
+                    <input type="number" id="pH" name="pH" step="any" value="6.2" required>
+                    <span class="range-display">Typical range: 3.5-10 pH</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rainfall">Rainfall (mm)</label>
+                    <!-- <span class="sensor-badge">Sensor</span> -->
+                    <input type="number" id="rainfall" name="rainfall" step="any" value="112.5" required>
+                    <span class="range-display">Typical range: 20-300 mm</span>
+                </div>
+                
+                <button type="submit">🌟 Predict My Crop</button>
+            </form>
+        </div>
+        
+        <div class="result-container">
+            
+            {% if prediction %}
+            <div class="result">
+                <strong>🌱 Recommended Crop: {{ prediction }}</strong>
+                {% if image_path %}
+                <img src="{{ url_for('static', filename=image_path) }}" alt="{{ prediction }}" />
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="placeholder-text">
+                <p>Your recommended crop and image will appear here after prediction</p>
+            </div>
+            {% endif %}
+<br><br>
+            <div class="back-arrow" onclick="window.location.href='http://localhost:3000'">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Back to Home</span>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Function to simulate refreshing sensor data
+        function refreshSensorData() {
+            // Simulate random values within typical ranges for each sensor
+            document.getElementById('N').value = Math.floor(Math.random() * 140);
+            document.getElementById('P').value = Math.floor(Math.random() * 140 + 5);
+            document.getElementById('K').value = Math.floor(Math.random() * 200 + 5);
+            document.getElementById('temperature').value = (Math.random() * 37 + 8).toFixed(1);
+            document.getElementById('humidity').value = Math.floor(Math.random() * 86 + 14);
+            document.getElementById('pH').value = (Math.random() * 6.5 + 3.5).toFixed(1);
+            document.getElementById('rainfall').value = (Math.random() * 280 + 20).toFixed(1);
+        }
+    </script>
 </body>
 </html>
