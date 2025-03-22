@@ -104,6 +104,15 @@ const Navbar = () => {
         </li>
 
         <li>
+          <a href="#resources">Resources</a>
+          <ul className="dropdown">
+            <li><a href="/article">Article</a></li>
+            <li><a href="/videos">Video</a></li>
+            <li><a href="/cheatsheet">Cheatsheet</a></li>
+          </ul>
+        </li>
+        
+        <li>
           <a href="#language"><FaLanguage /></a>
           <ul className="dropdown">
             <li onClick={() => handleLanguageChange('en')}>English</li>
