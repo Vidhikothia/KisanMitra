@@ -45,13 +45,16 @@ const DashboardContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f4f4f9;
+  background-image: url('https://www.hdwallpapers.in/download/closeup_view_of_green_wheat_field_in_blur_blue_sky_background_hd_nature-HD.jpg'); /* Add your image path here */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: Arial, sans-serif;
 `;
 
 const Title = styled.h1`
   font-size: 2rem;
-  color: #333;
+  color: white; /* Changed to white for visibility */
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -60,16 +63,14 @@ const CountBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
-  border-radius: 10px;
   padding: 20px;
-  width: 200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Count = styled.span`
-  font-size: 2.5rem;
+  font-size: 8rem;
   font-weight: bold;
-  color: #4CAF50;
+  color: white; /* Changed to white for visibility */
   text-align: center;
 `;
+
+

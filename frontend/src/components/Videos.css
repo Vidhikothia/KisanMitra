@@ -112,7 +112,6 @@
 .view-more {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 .view-more p {
   cursor: pointer;
