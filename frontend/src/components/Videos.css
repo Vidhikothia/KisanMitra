@@ -109,6 +109,19 @@
   gap: 8px;
 }
 
+.view-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.view-more p {
+  cursor: pointer;
+  font-size: 18px;
+  color: blue;
+  text-decoration: underline;
+}
+
+
 .video-actions button {
   border: none;
   background: none;
