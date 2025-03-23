@@ -5,6 +5,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const contentRoutes = require('./routes/contentRoutes'); // Correct the path here
 const cookieParser = require('cookie-parser');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+
 // const cropRoutes = require('./routes/cropRoutes');
 const app = express();
 
@@ -24,6 +26,8 @@ app.use(
 // app.use('/auth/api', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/content', contentRoutes);
+app.use('/analytics', analyticsRoutes);
+
 // app.use('/api/crops', cropRoutes);
 
 // Start the server

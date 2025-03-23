@@ -20,7 +20,7 @@ import PlantDiseaseDetection from './components/PlantDiseaseDetection';
 import VideoUploadForm from "./components/VideoUploadForm";
 import ArticleUploadForm from "./components/ArticleUploadForm";
 import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
-
+import Dashboard from "./components/Dashboard";
 const App = () => {
   return (
     <Router>
@@ -38,6 +38,7 @@ const App = () => {
               <Crop />
               <PlantDiseaseDetection />
               <VideoCards />
+              <Dashboard />
               <Scheme />
               <Footer />
             </>
