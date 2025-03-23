@@ -1,26 +1,11 @@
 const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
-   // Primary Key
-  user_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
-  }, // Foreign Key linking to User
-  payment_date: { 
-    type: Date, 
-    required: true,
-    default: Date.now 
-  }, // Payment date
-  payment_mode: { 
-    type: String, 
-    enum: ['paytm', 'upipayment'], 
-    required: true 
-  }, // Payment mode (Enum)
-  payment: { 
-    type: Number, 
-    required: true 
-  }, // Amount paid
-}, { timestamps: true });
+  farmer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  educator_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Educator', required: true },
+  subscribed_at: { type: Date, default: Date.now }, // When user subscribed
+  unsubscribed_at: { type: Date, default: null }, // When user unsubscribed (null if still subscribed)
+  status: { type: String, enum: ['Subscribed', 'Unsubscribed'], default: 'Subscribed' } // Track status
+});
 
 module.exports = mongoose.model('Subscription', subscriptionSchema);
