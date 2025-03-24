@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Educator = require('../models/Educator');
+const Admin = require("../models/Admin");
 require('dotenv').config();
 const twilio = require('twilio');
 
@@ -9,6 +10,7 @@ const twilio = require('twilio');
 // Function to create JWT token
 const generateToken = async (user) => {
   const educator = await Educator.findOne({ user_id: user._id });
+  const admin = await Admin.findOne({ user_id: user._id });
     return jwt.sign(
       {
         userId: user._id,
@@ -16,6 +18,7 @@ const generateToken = async (user) => {
         preferred_language: user.preferred_language,
         isPremium: user.isPremium,
         educatorId: educator ? educator._id : null,
+        adminId: admin ? admin._id : null,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
@@ -46,7 +49,12 @@ const generateToken = async (user) => {
         state: state || null, // Assign null if not provided
         city: city || null,
       });
-  
+      
+       // ✅ If user is Admin, create an entry in Admin model
+       if (role === "Admin") {
+        await Admin.create({ user_id: user._id });
+    }
+
       // Generate token & send response
       const token = await generateToken( user);
     //   res.cookie("token", token, {
