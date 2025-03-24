@@ -67,7 +67,6 @@ const Navbar = () => {
       <ul className="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/aboutus">About Us</a></li>
-        <li><a href="/login">Login</a></li>
 
         {isEducator ? (
           <li>
@@ -114,9 +113,11 @@ const Navbar = () => {
 
         <li>
           <a href="#mode" onClick={toggleMode}>
-            {isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+            {isDarkMode ? <FaSun /> : <FaMoon />} 
           </a>
         </li>
+        <li><a href="/login">Login</a></li>
+
       </ul>
     </nav>
   );
