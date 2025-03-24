@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LoginPage.css';
-
+import { jwtDecode } from "jwt-decode";
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Ensure navigate is defined
 
   // Form States
   const [email, setEmail] = useState('');
@@ -17,7 +17,22 @@ const LoginPage = () => {
 
   // Handle Role-Based Redirection
   const handleAuthSuccess = (token) => {
-    navigate('/');
+   
+    try {
+      // ✅ Decode the token to get user details
+      const decodedToken = jwtDecode(token);
+        console.log("Decoded Token:", decodedToken);
+
+      // ✅ Check role & navigate accordingly
+      if (decodedToken.role === "Admin") {
+          navigate("/admindashboard");
+      } else {
+          navigate("/"); // Default route
+      }
+  } catch (error) {
+      console.error("Error decoding token:", error);
+      navigate("/"); // Redirect to home if decoding fails
+  }
   };
 
   // Email & Password Login
