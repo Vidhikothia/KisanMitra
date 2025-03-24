@@ -52,16 +52,16 @@ exports.uploadVideo = async (req, res) => {
         await newVideo.save();
         
 
-        // ✅ Fetch all farmers subscribed to this educator
-        const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
+        // // ✅ Fetch all farmers subscribed to this educator
+        // const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
 
-        // ✅ Send notifications to subscribed farmers
-        subscribers.forEach(async (subscription) => {
-            await Notification.create({
-                farmer_id: subscription.farmer_id,
-                message: `New ${content_type} uploaded by ${educator.user_id.username}: ${title}`,
-            });
-        });
+        // // ✅ Send notifications to subscribed farmers
+        // subscribers.forEach(async (subscription) => {
+        //     await Notification.create({
+        //         farmer_id: subscription.farmer_id,
+        //         message: `New ${content_type} uploaded by ${educator.user_id.username}: ${title}`,
+        //     });
+        // });
         
         res.status(201).json({ message: "Video uploaded successfully!", video: newVideo, content: savedContent });
 
