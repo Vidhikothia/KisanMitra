@@ -122,7 +122,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}</a>
+          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} </a>
         </li>
 
         
