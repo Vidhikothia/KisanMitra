@@ -112,9 +112,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <a href="#mode" onClick={toggleMode}>
-            {isDarkMode ? <FaSun /> : <FaMoon />} 
-          </a>
+          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}</a>
         </li>
         <li><a href="/login">Login</a></li>
 

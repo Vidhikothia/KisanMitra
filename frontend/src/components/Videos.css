@@ -2,9 +2,34 @@
 .videos-page {
   display: flex;
   justify-content: center;
-  background-color: #f0f5e9; /* Light greenish background */
+  background-color: #f9f9f9;
   min-height: 100vh;
   padding: 20px 0;
+}
+
+/* Category Filter */
+.category-filter {
+  width: 90%;
+  max-width: 1400px;
+  margin-bottom: 20px;
+}
+
+.category-selector {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: border-color 0.2s;
+}
+
+.category-selector:hover, .category-selector:focus {
+  border-color: #999;
+  outline: none;
 }
 
 /* Videos Container */
@@ -94,7 +119,7 @@
 
 .video-educator {
   font-weight: bold;
-  color: #556b2f;
+  color: #444;
   margin-bottom: 8px;
 }
 
@@ -149,6 +174,10 @@
 @media (max-width: 768px) {
   .videos-container {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .category-selector {
+    width: 100%;
   }
 }
 

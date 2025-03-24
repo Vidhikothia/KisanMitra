@@ -7,7 +7,8 @@ const cloudinary = require('cloudinary').v2;
 exports.uploadVideo = async (req, res) => {
     try {
         const { title, description, access_type, category } = req.body;
-        const userId = req.user._id; 
+        const userId = req.user._id;
+        const educatorId = req.decoded.educatorId; 
         console.log("Received access_type:", req.body.access_type);
 
         const educator = await Educator.findOne({ user_id: userId });
@@ -52,8 +53,8 @@ exports.uploadVideo = async (req, res) => {
         await newVideo.save();
         
 
-        // // ✅ Fetch all farmers subscribed to this educator
-        // const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
+        // ✅ Fetch all farmers subscribed to this educator
+        const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
 
         // // ✅ Send notifications to subscribed farmers
         // subscribers.forEach(async (subscription) => {
