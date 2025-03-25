@@ -40,7 +40,7 @@
   font-size: 1.1rem;
   font-weight: 500;
   transition: color 0.3s, transform 0.3s;
-  padding: 10px 0;
+  padding: 10px 0px,10px,0px;
 }
 
 .nav-links a:hover {
@@ -111,12 +111,12 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .profile-photo {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #ddd;
