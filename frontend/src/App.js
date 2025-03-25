@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import LoginPage from "./components/LoginPage";
 import "./App.css";
 import ManageProfile from './components/ManageProfile';
-
+import NavbarSwitcher from "./components/NavbarSwitcher";
 import RegisterPage from "./components/RegisterPage";
 import ArticlePage from "./components/ArticlePage";
 import CheatsheetPage from "./components/CheatsheetPage";
@@ -36,7 +36,7 @@ const App = () => {
           path="/*"
           element={
             <>
-              <Navbar />
+             <NavbarSwitcher /> 
               <div id="google_translate_element" style={{ display: 'none' }}></div>
               <Routes>
                 <Route
