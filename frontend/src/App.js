@@ -21,9 +21,6 @@ import VideoUploadForm from "./components/VideoUploadForm";
 import ArticleUploadForm from "./components/ArticleUploadForm";
 import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
 import Dashboard from "./components/Dashboard";
-import AdminDashboard from "./components/admin/dashboardAdmin";
-import FeedbackForm from "./components/FeedbackForm";
-
 const App = () => {
   return (
     <Router>

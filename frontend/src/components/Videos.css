@@ -1,8 +1,7 @@
 /* General Page Styling */
 .videos-page {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   background-color: #f9f9f9;
   min-height: 100vh;
   padding: 20px 0;
@@ -44,7 +43,7 @@
 
 /* Video Card */
 .video-card {
-  background: white;
+  background: #e6f0d4; /* Soft green */
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -61,7 +60,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background-color: #ddd;
+  background-color: #b2c89b;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,19 +77,14 @@
   position: absolute;
   font-size: 3rem;
   color: white;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(34, 139, 34, 0.6); /* Forest Green */
   padding: 15px 20px;
   border-radius: 50%;
   transition: background 0.2s;
 }
 
 .video-card:hover .play-button {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-/* Video Player */
-.video-player {
-  display: none; /* Hide video element by default */
+  background: rgba(34, 139, 34, 0.8);
 }
 
 /* Video Info */
@@ -101,13 +95,13 @@
 .video-title {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #333;
+  color: #2f4f2f; /* Dark Olive Green */
   margin-bottom: 5px;
 }
 
 .video-description {
   font-size: 0.9rem;
-  color: #666;
+  color: #556b2f;
   margin-bottom: 8px;
 }
 
@@ -116,7 +110,7 @@
   display: flex;
   flex-direction: column;
   font-size: 0.85rem;
-  color: #777;
+  color: #6b8e23;
 }
 
 .video-date {
@@ -126,32 +120,15 @@
 .video-educator {
   font-weight: bold;
   color: #444;
-  margin-bottom: 4px;
-}
-
-.video-category {
-  color: #0066cc;
-  font-weight: 500;
   margin-bottom: 8px;
 }
 
 /* Action Buttons */
 .video-actions {
   display: flex;
-  gap: 8px;
+  gap: 15px;
+  margin-top: 8px;
 }
-
-.view-more {
-  display: flex;
-  justify-content: center;
-}
-.view-more p {
-  cursor: pointer;
-  font-size: 18px;
-  color: blue;
-  text-decoration: underline;
-}
-
 
 .video-actions button {
   border: none;
@@ -159,19 +136,38 @@
   font-size: 1rem;
   cursor: pointer;
   padding: 5px;
-  transition: color 0.2s;
+  color:#8b4513; /* Fern Green */
+  transition: color 0.3s, transform 0.2s;
+}
+
+.video-actions button:hover {
+  background-color:rgb(169, 85, 24);
+  color: #ffffff; /* Sea Green */
+  transform: scale(1.1);
 }
 
 .like-btn {
-  color: red;
+  color: #8b0000; /* Dark Red for like button */
 }
 
 .share-btn {
-  color: blue;
+  color: #4682b4; /* Steel Blue for share button */
 }
 
 .more-btn {
-  color: #555;
+  color: #8b4513; /* Saddle Brown for more options */
+}
+
+/* View More Link */
+.view-more {
+  display: flex;
+  justify-content: center;
+}
+.view-more p {
+  cursor: pointer;
+  font-size: 18px;
+  color: #006400; /* Dark Green */
+  text-decoration: underline;
 }
 
 /* Responsive Design */
