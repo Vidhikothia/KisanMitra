@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line, CartesianGrid } from "recharts";
+import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line } from "recharts";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -35,16 +35,21 @@ const AdminDashboard = () => {
     <div style={styles.mainContainer}>
       {/* Sidebar */}
       <div style={styles.sidebar}>
-        <h2 style={styles.logoText}>Kisan Mitra</h2>
+        <h2 style={styles.logoText}>Admin Panel</h2>
 
         <nav style={styles.navigation}>
           <div style={getNavItemStyle("dashboard", activeSection)} onClick={() => navigateTo("dashboard")}>
             📊 Dashboard
           </div>
+          <div style={getNavItemStyle("user-stats", activeSection)} onClick={() => navigateTo("user-stats")}>
+            👥 User Stats
+          </div>
           <div style={getNavItemStyle("educator-stats", activeSection)} onClick={() => navigateTo("educator-stats")}>
             👨‍🏫 Educator Stats
           </div>
-          
+          <div style={getNavItemStyle("feedback", activeSection)} onClick={() => navigateTo("feedback")}>
+            💬 Feedback
+          </div>
           <div style={getNavItemStyle("content-uploads", activeSection)} onClick={() => navigateTo("content-uploads")}>
             📤 Content Uploads
           </div>
@@ -69,107 +74,98 @@ const AdminDashboard = () => {
 
 // Dummy Data for Graphs
 const sampleData = [
-    { name: "December", users: 10, educators: 2, uploads: 5 },
-  { name: "January", users: 12, educators: 5, uploads: 10 },
-  { name: "February", users: 18, educators: 12, uploads: 6 },
-  { name: "March", users: 30, educators: 16, uploads: 30 },
+  { name: "January", users: 1200, educators: 200, uploads: 400 },
+  { name: "February", users: 1500, educators: 250, uploads: 500 },
+  { name: "March", users: 1800, educators: 300, uploads: 600 },
+  { name: "April", users: 2000, educators: 320, uploads: 700 },
 ];
 
-const contentData = [
-  { name: "Videos", count: 7 },
-  { name: "Articles", count: 5 },
+const pieDataUsers = [
+  { name: "Farmers", value: 65 },
+  { name: "Educators", value: 25 },
+  { name: "Admins", value: 10 },
 ];
 
-// Dashboard Overview with Large Bar Chart
+const pieDataContent = [
+  { name: "Videos", value: 60 },
+  { name: "Articles", value: 40 },
+];
+
+// Dashboard Overview
 const DashboardContent = () => (
   <>
     <h2>Overview</h2>
     <p>Welcome to the Admin Dashboard. Here are key statistics.</p>
-    <BarChart width={800} height={400} data={sampleData}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <BarChart width={600} height={300} data={sampleData}>
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="users" fill="#004aad" name="Users" />
-      <Bar dataKey="educators" fill="#82ca9d" name="Educators" />
+      <Bar dataKey="users" fill="#8884d8" />
+      <Bar dataKey="educators" fill="#82ca9d" />
     </BarChart>
   </>
 );
 
-// User Stats with Large Bar Chart
+// User Stats with Pie Chart
 const UserStatsContent = () => (
   <>
     <h2>User Statistics</h2>
-    <BarChart width={800} height={400} data={sampleData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="users" fill="#004aad" name="Total Users" />
-      <Bar dataKey="educators" fill="#82ca9d" name="Total Educators" />
-    </BarChart>
+    <PieChart width={400} height={400}>
+      <Pie dataKey="value" data={pieDataUsers} cx="50%" cy="50%" outerRadius={100} fill="#004aad" label />
+    </PieChart>
   </>
 );
 
-// Educator Stats with Large Line Chart
+// Educator Stats with Line Chart
 const EducatorStatsContent = () => (
   <>
-    <h2>Number of Educators</h2>
-    <LineChart width={800} height={300} data={sampleData}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <h2>Educator Performance</h2>
+    <LineChart width={600} height={300} data={sampleData}>
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="educators" stroke="#004aad" name="Total Educators" />
+      <Line type="monotone" dataKey="educators" stroke="#004aad" />
     </LineChart>
   </>
 );
 
-// Feedback Stats with Large Bar Chart
+// Feedback Stats with Bar Chart
 const FeedbackContent = () => (
   <>
     <h2>User Feedback</h2>
-    <BarChart width={800} height={400} data={sampleData}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <BarChart width={600} height={300} data={sampleData}>
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="uploads" fill="#FF5733" name="Total Feedbacks" />
+      <Bar dataKey="uploads" fill="#FF5733" />
     </BarChart>
   </>
 );
 
-// Content Upload Stats with Large Line Chart
+// Content Upload Stats with Line Chart
 const ContentUploadsContent = () => (
   <>
     <h2>Content Uploads</h2>
-    <LineChart width={800} height={400} data={sampleData}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <LineChart width={600} height={300} data={sampleData}>
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="uploads" stroke="#FF5733" name="Total Uploads" />
+      <Line type="monotone" dataKey="uploads" stroke="#FF5733" />
     </LineChart>
   </>
 );
 
-// 📚 Content Category - Shows Total Videos & Articles
+// 📚 Content Category - Shows Video vs. Article Count
 const ContentCategoryContent = () => (
   <>
     <h2>Content Categories</h2>
-    <BarChart width={800} height={400} data={contentData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="count" fill="#82ca9d" name="Total Count" />
-    </BarChart>
+    <PieChart width={400} height={400}>
+      <Pie dataKey="value" data={pieDataContent} cx="50%" cy="50%" outerRadius={100} fill="#82ca9d" label />
+    </PieChart>
   </>
 );
 

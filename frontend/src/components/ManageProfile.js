@@ -1,33 +1,54 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './ManageProfile.css';
 
 const ManageProfile = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Profile updated:', { name, email, profilePhoto });
-    alert('Profile updated successfully!');
+    
+    if (!profilePhoto) {
+      alert('Please select a profile photo.');
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('profilePhoto', profilePhoto);
+
+    try {
+      const response = await axios.post('http://localhost:5000/auth/user/create-educator', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true,
+      });
+      console.log(response);
+      if (response.data.success) {
+        alert('Profile photo added successfully!');
+        navigate('/');  // Redirect to login page
+      }
+    } catch (error) {
+      console.error('Error uploading photo:', error.response?.data?.message || error.message);
+      alert('Failed to upload profile photo. Please try again.');
+    }
   };
 
   return (
     <div className="manage-profile">
-      <h2>Manage Profile</h2>
+      <h2>Add Profile Photo</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
           <label>Profile Photo:</label>
-          <input type="file" onChange={(e) => setProfilePhoto(e.target.files[0])} />
+          <input 
+            type="file" 
+            accept="image/*"
+            onChange={(e) => setProfilePhoto(e.target.files[0])} 
+          />
         </div>
-        <button type="submit">Update Profile</button>
+        <button type="submit">Add Photo</button>
       </form>
     </div>
   );

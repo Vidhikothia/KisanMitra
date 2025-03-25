@@ -54,7 +54,7 @@ exports.uploadVideo = async (req, res) => {
         
 
         // ✅ Fetch all farmers subscribed to this educator
-        // const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
+        const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
 
         // // ✅ Send notifications to subscribed farmers
         // subscribers.forEach(async (subscription) => {

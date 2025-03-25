@@ -20,7 +20,7 @@ const VideoCards = () => {
         const data = await response.json();
 
         setVideos(data);
-        setVisibleVideos(data.slice(0, 3));  // Display only 3 videos
+        setVisibleVideos(data.slice(0, 6));  // Display only 3 videos
       } catch (error) {
         setError(error.message);
       } finally {
