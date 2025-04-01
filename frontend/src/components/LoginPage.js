@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LoginPage.css';
+import { AuthContext } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 const LoginPage = () => {
   const navigate = useNavigate(); // Ensure navigate is defined
-
+  const { loginUser } = useContext(AuthContext); 
   // Form States
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +17,7 @@ const LoginPage = () => {
   const [loginMethod, setLoginMethod] = useState('email'); // 'email' or 'phone'
 
   // Handle Role-Based Redirection
-  const handleAuthSuccess = (token) => {
+  const handleAuthSuccess = async (token) => {
    
     try {
       // ✅ Decode the token to get user details
@@ -27,6 +28,7 @@ const LoginPage = () => {
       if (decodedToken.role === "Admin") {
           navigate("/admindashboard");
       } else {
+          await loginUser(); 
           navigate("/"); // Default route
       }
   } catch (error) {
