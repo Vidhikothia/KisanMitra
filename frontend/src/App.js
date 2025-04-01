@@ -21,6 +21,9 @@ import VideoUploadForm from "./components/VideoUploadForm";
 import ArticleUploadForm from "./components/ArticleUploadForm";
 import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
 import Dashboard from "./components/Dashboard";
+import AdminDashboard from "./components/admin/dashboardAdmin";
+import FeedbackForm from "./components/FeedbackForm";
+
 const App = () => {
   return (
     <Router>
@@ -30,34 +33,42 @@ const App = () => {
 
         {/* ✅ Main Layout with Navbar */}
         <Route
-          path="/"
+          path="/*"
           element={
             <>
-              <HeroSection />
-              <Mantra />
-              <Crop />
-              <PlantDiseaseDetection />
-              <VideoCards />
-              <Dashboard />
-              <Scheme />
-              <Footer />
+              <Navbar />
+              <div id="google_translate_element" style={{ display: 'none' }}></div>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <HeroSection />
+                      <Mantra />
+                      <Crop />
+                      <PlantDiseaseDetection />
+                      <VideoCards />
+                      <Dashboard />
+                      <Scheme />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route path="/feedbackform" element={<FeedbackForm />}/>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/article" element={<ArticlePage />} />
+                <Route path="/cheatsheet" element={<CheatsheetPage />} />
+                <Route path="/aboutus" element={<AboutUs />} />
+                <Route path="/videos" element={<Videos />} />
+                <Route path="/videouploadform" element={<VideoUploadForm />} />
+                <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />} />
+                <Route path="/articleuploadform" element={<ArticleUploadForm />} />
+                <Route path="/manageprofile" element={<ManageProfile />} />
+              </Routes>
             </>
           }
         />
-        
-        {/* Route for the login page */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/article" element={<ArticlePage />} />
-        <Route path="/cheatsheet" element={<CheatsheetPage />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/videos" element={<Videos />} />
-        <Route path="/videouploadform" element={<VideoUploadForm />}/>
-        <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />}/>
-        <Route path="/articleuploadform" element={<ArticleUploadForm />}/>
-        <Route path="/manageprofile" element={<ManageProfile />} />
-
-
       </Routes>
     </Router>
   );
