@@ -1,24 +1,83 @@
 .mantra-carousel {
-  width: 80%;
-  margin: auto;
-  padding: 30px 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0;
+}
+
+.mantra-carousel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(45deg, transparent 20%, rgba(141, 194, 111, 0.1) 20%, rgba(141, 194, 111, 0.1) 30%, transparent 30%),
+    linear-gradient(-45deg, transparent 20%, rgba(141, 194, 111, 0.1) 20%, rgba(141, 194, 111, 0.1) 30%, transparent 30%);
+  background-size: 50px 50px;
+  z-index: -1;
+  opacity: 0.5;
 }
 
 .mantra-slide {
-  background: white;
-  /* color: rgb(53, 145, 71); */
-  color:#8B5A2B;
+  color: #2C5E1A;
   text-align: center;
-  padding: 100px 10px;
-  border-radius: 8px;
-  font-size: 3rem;
-  font-weight: bold;
+  padding: 80px 30px;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  background: transparent;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.mantra-slide::before,
+.mantra-slide::after {
+  content: '"';
+  position: absolute;
+  font-size: 4rem;
+  color: rgba(118, 184, 82, 0.2);
+  z-index: -1;
+}
+
+.mantra-slide::before {
+  top: 20px;
+  left: 30px;
+}
+
+.mantra-slide::after {
+  bottom: 20px;
+  right: 30px;
+}
+
+.slick-list {
+  overflow: visible !important;
+}
+
+.slick-dots {
+  bottom: -20px;
 }
 
 .slick-dots li button:before {
-  color: green !important;
+  color: #4CAF50 !important;
+  opacity: 0.5;
+  font-size: 10px;
 }
 
 .slick-dots li.slick-active button:before {
-  color: darkgreen !important;
+  color: #2C5E1A !important;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .mantra-slide {
+    font-size: 1.8rem;
+    padding: 60px 20px;
+  }
+
+  .mantra-slide::before,
+  .mantra-slide::after {
+    font-size: 3rem;
+  }
 }

@@ -67,6 +67,7 @@ const Navbar = () => {
       <ul className="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/aboutus">About Us</a></li>
+       
 
         {isEducator ? (
           <li>
@@ -77,23 +78,14 @@ const Navbar = () => {
               <li><a href="/articleuploadform">Upload Article</a></li>
             </ul>
           </li>
-        ) : (
-          <li><a href="#become-educator" onClick={becomeEducator}>Become an Educator</a></li>
         )}
 
-        <li>
-          <a href="#profile" onClick={toggleProfile}>
-            <img src={profilePhoto} alt="Profile" className="profile-photo" />
-          </a>
-          {isProfileOpen && (
-            <ul className="dropdown">
-              <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
-              <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
-            </ul>
-          )}
-        </li>
-
-        <li>
+        {/* {!isEducator && (
+          <li>
+            <a href="#become-educator" onClick={becomeEducator}>Become an Educator</a>
+          </li>
+        )} */}
+          <li>
           <a href="#resources">Resources</a>
           <ul className="dropdown">
             <li><a href="/article">Article</a></li>
@@ -101,7 +93,18 @@ const Navbar = () => {
             <li><a href="/cheatsheet">Cheatsheet</a></li>
           </ul>
         </li>
+        {/* <li>
+          <a href="#profile" onClick={toggleProfile}><img src={profilePhoto} alt="Profile" className="profile-photo" /></a>
+          {isProfileOpen && (
+            <ul className="dropdown">
+              <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
+              <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
+            </ul>
+          )}
+        </li> */}
 
+<li><a href="/login">Login</a></li>
+        
         <li>
           <a href="#language"><FaLanguage /></a>
           <ul className="dropdown">
@@ -114,8 +117,8 @@ const Navbar = () => {
         <li>
           <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}</a>
         </li>
-        <li><a href="/login">Login</a></li>
-
+       
+        
       </ul>
     </nav>
   );
