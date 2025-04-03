@@ -25,6 +25,8 @@ import Dashboard from "./components/Dashboard";
 import AdminDashboard from "./components/admin/dashboardAdmin";
 import FeedbackForm from "./components/FeedbackForm";
 import ManageContent from './components/educatorMenu/ManageContent.js'
+import SavedVideos from './components/SavedVideos.js'
+import NotificationsPage from './components/NotificationsPage.js'
 
 const App = () => {
   return (
@@ -64,7 +66,8 @@ const App = () => {
                 <Route path="/cheatsheet" element={<CheatsheetPage />} />
                 <Route path="/aboutus" element={<AboutUs />} />
                 <Route path="/videos" element={<Videos />} />
-              
+                <Route path="/saved-content" element={<SavedVideos />} />
+                <Route path="/videos/notifications" element={<NotificationsPage />} />
                 <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />} />
                 <Route path="/articleuploadform" element={<ArticleUploadForm />} />
                 <Route path="/BecomeEducator" element={<BecomeEducator />} />

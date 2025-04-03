@@ -88,11 +88,13 @@ const Navbar = () => {
           </ul>
         </li>
         <li className="notification-icon">
-          <a href="#notifications">
-            <FaBell />
-            {notificationCount > 0 && <span className="notification-badge">{notificationCount}</span>}
-          </a>
-        </li>
+  <Link to="/videos/notifications" className="notification-link">
+    <FaBell className="bell-icon" />
+    {notificationCount > 0 && (
+      <span className="notification-badge">{notificationCount}</span>
+    )}
+  </Link>
+</li>
         <li 
           className="profile-dropdown"
           onMouseEnter={() => setIsProfileHovered(true)}
