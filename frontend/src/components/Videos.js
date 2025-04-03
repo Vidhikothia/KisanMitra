@@ -8,8 +8,15 @@ const Videos = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const videoRefs = useRef({});
+  const [subscribedVideos, setSubscribedVideos] = useState({});
+
+ 
+  
+
 
   useEffect(() => {
+   
+
     const fetchVideos = async () => {
       try {
         const response = await fetch("http://localhost:5000/content/videos");
@@ -55,30 +62,43 @@ const Videos = () => {
     }
 };
 
-const handleSave = async (videoId) => {
-    try {
-        const response = await fetch(`http://localhost:5000/content/videos/save/${videoId}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        });
-        const data = await response.json();
-        
-        if (response.ok) {
-            setVideos(prevVideos =>
-                prevVideos.map(video =>
-                    video._id === videoId ? { ...video, saved_count: data.saved_count || 0 } : video
-                )
-            );
-        }
-    } catch (error) {
+const handleSave = async (video) => {
+  try {
+      const response = await fetch(`http://localhost:5000/content/videos/save/${video._id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+      });
+      const data = await response.json();
+      
+      if (response.ok) {
+          setVideos(prevVideos =>
+              prevVideos.map(v =>
+                  v._id === video._id ? { ...v, saved_count: data.saved_count || 0 } : v
+              )
+          );
+
+          // Get saved videos from localStorage
+          const savedVideos = JSON.parse(localStorage.getItem("savedVideos")) || [];
+
+          // Check if video is already saved
+          if (!savedVideos.some(v => v._id === video._id)) {
+              const updatedSavedVideos = [...savedVideos, video];
+              localStorage.setItem("savedVideos", JSON.stringify(updatedSavedVideos));
+          }
+      }
+  } catch (error) {
       alert("An error occurred. Please try again.");
-        console.error("Error saving video:", error);
-    }
+      console.error("Error saving video:", error);
+  }
 };
 
 
-const handleSubscribe = () => {
-  window.location.href = "http://localhost:5000/subscribe";
+
+const handleSubscribe = (videoId) => {
+  setSubscribedVideos((prev) => ({
+    ...prev,
+    [videoId]: !prev[videoId], // Toggle subscription status
+  }));
 };
 
 
@@ -232,12 +252,20 @@ const filteredVideos = [...videos]
     <button className="like-btn" onClick={() => handleLike(video._id)}>
         ❤️ Like ({video.like_count || 0})
     </button>
-    <button className="save-btn" onClick={() => handleSave(video._id)}>
-        💾 Save ({video.saved_count || 0})
-    </button>
-    <button className="subscribe-btn" onClick={handleSubscribe}>
-        📩 Subscribe
-    </button>
+    <button className="save-btn" onClick={() => handleSave(video)}>
+    💾 Save ({video.saved_count || 0})
+</button>
+
+{/* <a href="/saved-content" className="view-saved-btn">📁 View Saved Videos</a> */}
+
+<button
+                  className={`subscribe-btn ${subscribedVideos[video._id] ? "subscribed" : ""}`}
+                  onClick={() => handleSubscribe(video._id)}
+                >
+                  {subscribedVideos[video._id] ? "📤 Unsubscribe" : "📩 Subscribe"}
+                </button>
+
+
 </div>
                     
               </div>
