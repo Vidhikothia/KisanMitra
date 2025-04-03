@@ -93,6 +93,41 @@ exports.uploadVideo = async (req, res) => {
     }
 };
 
+// 📌 Like a Video
+exports.likeVideo = async (req, res) => {
+    try {
+        const video = await Video.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { like_count: 1 } },
+            { new: true }
+        );
+
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        res.json({ message: "Video liked successfully", like_count: video.like_count });
+    } catch (error) {
+        res.status(500).json({ message: "Error liking video", error: error.message });
+    }
+};
+
+
+// 📌 Save a Video
+exports.saveVideo = async (req, res) => {
+    try {
+        const video = await Video.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { saved_count: 1 } },
+            { new: true }
+        );
+
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        res.json({ message: "Video saved successfully", saved_count: video.saved_count });
+    } catch (error) {
+        res.status(500).json({ message: "Error saving video", error: error.message });
+    }
+};
+
 // 🔍 Get Video by ID
 exports.getVideoById = async (req, res) => {
     try {

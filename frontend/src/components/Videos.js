@@ -33,6 +33,56 @@ const Videos = () => {
     fetchVideos();
   }, []);
 
+  
+  const handleLike = async (videoId) => {
+    try {
+        const response = await fetch(`http://localhost:5000/content/videos/like/${videoId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+            setVideos(prevVideos =>
+                prevVideos.map(video =>
+                    video._id === videoId ? { ...video, like_count: data.like_count || 0 } : video
+                )
+            );
+        }
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+        console.error("Error liking video:", error);
+    }
+};
+
+const handleSave = async (videoId) => {
+    try {
+        const response = await fetch(`http://localhost:5000/content/videos/save/${videoId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+            setVideos(prevVideos =>
+                prevVideos.map(video =>
+                    video._id === videoId ? { ...video, saved_count: data.saved_count || 0 } : video
+                )
+            );
+        }
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+        console.error("Error saving video:", error);
+    }
+};
+
+
+const handleSubscribe = () => {
+  window.location.href = "http://localhost:5000/subscribe";
+};
+
+
+
   const handleVideoClick = (videoId, event) => {
     event.stopPropagation(); // Prevent the click from bubbling up to the card
     const video = videoRefs.current[videoId];
@@ -107,11 +157,14 @@ const Videos = () => {
   }, [videos]);
 
   // Filter videos by selected category
-  const filteredVideos = selectedCategory === "all" 
-    ? videos 
-    : videos.filter(video => 
-        (video.content_id?.category || "Uncategorized") === selectedCategory
-      );
+  // Filter videos by selected category and sort by uploaded_date (latest first)
+const filteredVideos = [...videos]
+.filter(video => selectedCategory === "all" || 
+        (video.content_id?.category || "Uncategorized") === selectedCategory)
+.sort((a, b) => 
+  new Date(b.content_id?.uploaded_date || 0) - new Date(a.content_id?.uploaded_date || 0)
+);
+
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -176,10 +229,17 @@ const Videos = () => {
                 <p className="video-educator">Educator: {video.content_id?.creator?.user_id?.username}</p>
                 <p className="video-category">Category: {video.content_id?.category || "Uncategorized"}</p>
                 <div className="video-actions">
-                  <button className="like-btn">👍 Like</button>
-                  <button className="share-btn">🚀 Share</button>
-                  <button className="more-btn">ℹ More</button>
-                </div>
+    <button className="like-btn" onClick={() => handleLike(video._id)}>
+        ❤️ Like ({video.like_count || 0})
+    </button>
+    <button className="save-btn" onClick={() => handleSave(video._id)}>
+        💾 Save ({video.saved_count || 0})
+    </button>
+    <button className="subscribe-btn" onClick={handleSubscribe}>
+        📩 Subscribe
+    </button>
+</div>
+                    
               </div>
             </div>
           </div>
