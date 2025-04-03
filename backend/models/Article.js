@@ -10,7 +10,7 @@ const articleSchema = new mongoose.Schema({
 
   content: { 
     type: String, 
-    maxlength: 500,
+    maxlength: 3500,
     required: true 
   }, // Full article content 
 

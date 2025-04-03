@@ -13,7 +13,7 @@ const protect = async (req, res, next) => {
     console.log("Decoded JWT:", decoded);
     req.user = await User.findById(decoded.userId).select("-password"); // Attach user info to req
     req.decoded = decoded; 
-    console.log("User from DB:", req.user);
+    console.log("User from educatore id :", req.decoded.educatorId);
     
     next();
   } catch (error) {

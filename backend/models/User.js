@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['Admin', 'Educator', 'Farmer'], required: true },
   preferred_language: { type: String, enum: ['English', 'Hindi', 'Gujarati'], required: true },
+  country: { type: String, default: null },
   city: { type: String, default: null },
   state: { type: String, default: null },
   isPremium: { type: Boolean, default: false },

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './NavbarFarmers.css';
+import { Link } from 'react-router-dom';
 import { 
-  FaLanguage, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaBell, 
-  FaTimes, FaEdit, FaMoneyBillWave, FaBookmark, FaChalkboardTeacher, 
-  FaBellSlash 
+  FaGlobeAmericas, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaBell, 
+  FaMoneyBillWave,  FaChalkboardTeacher, 
+   
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import km from "./kisanmitra.png";
@@ -11,7 +12,7 @@ import km from "./kisanmitra.png";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
   const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
 
@@ -63,10 +64,6 @@ const Navbar = () => {
     }
   };
 
-  const toggleProfile = () => {
-    setIsProfileOpen(!isProfileOpen);
-  };
-
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isDarkMode ? 'dark' : ''}`}>
       <div className="logo">
@@ -83,56 +80,59 @@ const Navbar = () => {
           </ul>
         </li>
         <li className="dropdown-parent">
-          <a href="#language"><FaLanguage /></a>
+          <a href="#language"><FaGlobeAmericas /></a>
           <ul className="dropdown">
             <li onClick={() => handleLanguageChange('en')}>English</li>
             <li onClick={() => handleLanguageChange('hi')}>Hindi</li>
             <li onClick={() => handleLanguageChange('gu')}>Gujarati</li>
           </ul>
         </li>
-        <li>
+        {/* <li>
           <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />}</a>
-        </li>
+        </li> */}
         <li className="notification-icon">
           <a href="#notifications">
             <FaBell />
             {notificationCount > 0 && <span className="notification-badge">{notificationCount}</span>}
           </a>
         </li>
-        <li className="profile-dropdown">
-          <a href="#profile" onClick={toggleProfile}>
+        <li 
+          className="profile-dropdown"
+          onMouseEnter={() => setIsProfileHovered(true)}
+          onMouseLeave={() => setIsProfileHovered(false)}
+        >
+          <a href="#profile">
             <img src={profilePhoto} alt="Profile" className="profile-photo" />
           </a>
-          {isProfileOpen && (
+          {isProfileHovered && (
             <div className="profile-submenu">
-              <div className="profile-submenu-header">
-                <span>Profile Menu</span>
-                <FaTimes onClick={toggleProfile} className="close-icon" />
-              </div>
               <ul>
                 <li>
                   <FaUserEdit />
-                  <a href="/manageprofile">Manage Profile</a>
+                  <Link to="/ProfileManagement">Manage Profile</Link>
                 </li>
+                <li>
+                  <FaChalkboardTeacher />
+                  <Link to="/BecomeEducator">Become an Educator</Link>
+                </li>
+                
+                <li>
+                  <FaSignOutAlt />
+                  <a href="/login" onClick={handleLogout}>Logout</a>
+                </li>
+                <hr className="profile-submenu-divider" />
                 <li>
                   <FaMoneyBillWave />
                   <a href="/subscription">Subscription</a>
                 </li>
                 <li>
-                  <FaBookmark />
-                  <a href="/saved-content">Saved Content</a>
-                </li>
-                <li>
-                  <FaChalkboardTeacher />
-                  <a href="/become-educator">Become an Educator</a>
-                </li>
-                <li>
-                  <FaBellSlash />
+                  <FaBell />
                   <a href="/notifications">Notifications</a>
                 </li>
+                <hr className="profile-submenu-divider" />
                 <li>
-                  <FaSignOutAlt />
-                  <a href="/login" onClick={handleLogout}>Logout</a>
+                {isDarkMode ? <FaSun /> : <FaMoon />}
+                  <a href="#mode" onClick={toggleMode}>  Appearance</a>
                 </li>
               </ul>
             </div>
