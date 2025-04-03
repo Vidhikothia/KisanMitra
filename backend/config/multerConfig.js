@@ -29,16 +29,23 @@ const storage = new CloudinaryStorage({
         allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
         transformation: [{ width: 300, height: 200, crop: 'limit' }]
       };
-    } else {
+    }else if (file.fieldname === 'articlephoto') {
+      // Handling video thumbnail uploads
+      return {
+        folder: 'article_images',
+        resource_type: 'image',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+        transformation: [{ width: 500, height: 400, crop: 'limit' }]
+      }} else {
       throw new Error('Invalid file field name');
     }
-  }
+  } 
 });
 
 // Multer middleware for handling multiple file uploads
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 } // Max file size 50MB
+  limits: { fileSize: 100 * 1024 * 1024 } // Max file size 50MB
 });
 
 module.exports = upload;

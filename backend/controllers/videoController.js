@@ -1,6 +1,8 @@
 const Video = require('../models/Video');
 const Content = require('../models/Content');
 const Educator = require('../models/Educator');
+const Subscription = require('../models/Subscription');
+const Notification = require('../models/Notification');
 const cloudinary = require('cloudinary').v2;
 
 // 🆕 Upload Video
@@ -8,30 +10,30 @@ exports.uploadVideo = async (req, res) => {
     try {
         const { title, description, access_type, category } = req.body;
         const userId = req.user._id;
-        const educatorId = req.decoded.educatorId; 
-        console.log("Received access_type:", req.body.access_type);
-
-        const educator = await Educator.findOne({ user_id: userId });
+        
+        const educator = await Educator.findOne({ user_id: userId }).populate('user_id');
         if (!educator) return res.status(403).json({ message: "Only educators can upload videos." });
+       
 
         if (!req.files || !req.files.video) return res.status(400).json({ message: "Video file is required." });
         if (!req.files || !req.files.thumbnail) return res.status(400).json({ message: "Thumbnail is required." });
-
+       
         // ✅ Upload video to Cloudinary
         const videoResult = await cloudinary.uploader.upload(req.files.video[0].path, {
             folder: 'videos',
-            resource_type: 'video'
+            resource_type: 'video',
+            timeout: 180000
         });
 
         let thumbnailUrl = null;
         if (req.files.thumbnail) {
             const thumbnailResult = await cloudinary.uploader.upload(req.files.thumbnail[0].path, {
                 folder: 'thumbnails',
-                resource_type: 'image'
+                resource_type: 'image',
+                timeout: 180000
             });
             thumbnailUrl = thumbnailResult.secure_url;
         }
-
         // ✅ Save content
         const newContent = new Content({
             content_type: 'video',
@@ -41,8 +43,8 @@ exports.uploadVideo = async (req, res) => {
             access_type,
             category
         });
+        // const savedContent = await newContent.save();
         const savedContent = await newContent.save();
-
         // ✅ Save video data
         const newVideo = new Video({
             content_id: savedContent._id,
@@ -50,20 +52,40 @@ exports.uploadVideo = async (req, res) => {
             thumbnail_url: thumbnailUrl
         });
 
+        
         await newVideo.save();
-        
+        // const content_type = "video"; // ✅ Define content_type
+      
+// ✅ Fetch subscribers with better error handling
+        const content_type = "video";
+        const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id');
+        console.log("No subscribers found",subscribers);
+        if (!subscribers || subscribers.length === 0) {
+            console.log("No subscribers found for this educator.");
+        } else {
+            console.log(`Found ${subscribers.length} subscribers`);
 
-        // ✅ Fetch all farmers subscribed to this educator
-        const subscribers = await Subscription.find({ educator_id: educator._id }).populate('farmer_id', 'email');
+            for (const subscription of subscribers) {
+                console.log("Processing notification for:", subscription.farmer_id);
 
-        // // ✅ Send notifications to subscribed farmers
-        // subscribers.forEach(async (subscription) => {
-        //     await Notification.create({
-        //         farmer_id: subscription.farmer_id,
-        //         message: `New ${content_type} uploaded by ${educator.user_id.username}: ${title}`,
-        //     });
-        // });
-        
+                if (!subscription.farmer_id) {
+                    console.warn("Skipping notification: farmer_id is missing.");
+                    continue; // ❌ Prevents breaking loop on error
+                }
+
+                if (!educator.user_id || !educator.user_id.username) {
+                    console.warn("Skipping notification: educator username is missing.");
+                    continue;
+                }
+
+                await Notification.create({
+                    farmer_id: subscription.farmer_id,
+                    message: `New ${content_type} uploaded by ${educator.user_id.username}: ${title}`,
+                });
+
+                console.log("Notification sent to:", subscription.farmer_id);
+            }
+        }
         res.status(201).json({ message: "Video uploaded successfully!", video: newVideo, content: savedContent });
 
     } catch (error) {
@@ -121,3 +143,60 @@ exports.updateVideo = async (req, res) => {
         res.status(500).json({ message: "Error updating video", error: error.message });
     }
 };
+
+exports.getVideosByEducatorId = async (req, res) => {
+    try {
+      const { educatorId } = req.params; // Get educator ID from request params
+  
+      // Find videos where educator field matches the given ID
+      const videos = await Video.find({ educator: educatorId });
+  
+      if (!videos || videos.length === 0) {
+        return res.status(404).json({ message: "No videos found for this educator." });
+      }
+  
+      res.status(200).json(videos); // Send response with videos
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  };
+
+  exports.getVideosByLoggedInEducator = async (req, res) => {
+    try {
+      const educatorId = req.decoded.educatorId;
+      if (!educatorId) {
+        return res.status(400).json({ message: "Educator ID is missing in token." });
+      }
+  
+      // ✅ Step 1: Find all Content created by this educator
+      const educatorContent = await Content.find({ creator: educatorId }).select("_id");
+      
+      if (!educatorContent.length) {
+        return res.status(404).json({ message: "No content found for this educator." });
+      }
+  
+      // Extract content IDs
+      const contentIds = educatorContent.map(content => content._id);
+  
+      // ✅ Step 2: Find all Videos linked to this educator's Content
+      const videos = await Video.find({ content_id: { $in: contentIds } })
+        .populate({
+          path: "content_id",
+          populate: {
+            path: "creator", 
+            select: "user_id", // Get the User ID from Educator
+            populate: { path: "user_id", select: "username email" } // Get Educator's User Info
+          }
+        });
+  
+      if (!videos.length) {
+        return res.status(404).json({ message: "No videos found for this educator." });
+      }
+  
+      res.status(200).json(videos); // ✅ Return videos linked to the educator
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  };

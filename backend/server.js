@@ -22,6 +22,9 @@ app.use(
     credentials: true, // ✅ Allows frontend to send cookies
   })
 );
+app.use(express.json({ limit: "200mb" }));
+app.use(express.urlencoded({ limit: "200mb", extended: true }));
+
 // Routes
 // app.use('/auth/api', userRoutes);
 app.use('/auth', authRoutes);

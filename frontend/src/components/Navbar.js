@@ -69,7 +69,7 @@ const Navbar = () => {
         <li><a href="/aboutus">About Us</a></li>
        
 
-        {isEducator ? (
+        {/* {isEducator ? (
           <li>
             <a href="#uploads"><FaUpload /> Upload</a>
             <ul className="dropdown">
@@ -78,7 +78,7 @@ const Navbar = () => {
               <li><a href="/articleuploadform">Upload Article</a></li>
             </ul>
           </li>
-        )}
+        )} */}
 
         {/* {!isEducator && (
           <li>

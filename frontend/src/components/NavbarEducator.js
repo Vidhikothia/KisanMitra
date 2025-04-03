@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import './Navbar.css'; 
-import { FaLanguage, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaUpload } from 'react-icons/fa';
+import './NavbarFarmers.css';
+import { Link } from 'react-router-dom';
+import { 
+  FaGlobeAmericas, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaBell, 
+  FaMoneyBillWave, FaChalkboardTeacher, FaSave, FaTrash, FaChartLine, 
+  FaFileAlt, FaBookmark 
+} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import km from "./kisanmitra.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isEducator, setIsEducator] = useState(false); // Track educator status
-  const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'); 
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(3);
+  const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+
   const navigate = useNavigate();
 
   const handleScroll = () => {
@@ -58,9 +64,6 @@ const Navbar = () => {
     }
   };
 
-  const toggleProfile = () => {
-    setIsProfileOpen((prev) => !prev);
-  };
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isDarkMode ? 'dark' : ''}`}>
       <div className="logo">
@@ -68,26 +71,7 @@ const Navbar = () => {
       </div>
       <ul className="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/aboutus">About Us</a></li>
-       
-
-        
-          <li>
-            <a href="#uploads"><FaUpload /> Upload</a>
-            <ul className="dropdown">
-              <li><a href="/videouploadform">Upload Video</a></li>
-              <li><a href="/cheatsheetuploadform">Upload Cheatsheet</a></li>
-              <li><a href="/articleuploadform">Upload Article</a></li>
-            </ul>
-          </li>
-        
-
-        {/* {!isEducator && (
-          <li>
-            <a href="#become-educator" onClick={becomeEducator}>Become an Educator</a>
-          </li>
-        )} */}
-          <li>
+        <li className="dropdown-parent">
           <a href="#resources">Resources</a>
           <ul className="dropdown">
             <li><a href="/article">Article</a></li>
@@ -95,32 +79,88 @@ const Navbar = () => {
             <li><a href="/cheatsheet">Cheatsheet</a></li>
           </ul>
         </li>
-        <li>
-          <a href="#profile" onClick={toggleProfile}><img src={profilePhoto} alt="Profile" className="profile-photo" /></a>
-        
-            <ul className="dropdown">
-              <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
-              <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
-            </ul>
-         
-        </li>
-
-        <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
-        
-        <li>
-          <a href="#language"><FaLanguage /></a>
+        <li className="dropdown-parent">
+          <a href="#language"><FaGlobeAmericas /></a>
           <ul className="dropdown">
             <li onClick={() => handleLanguageChange('en')}>English</li>
             <li onClick={() => handleLanguageChange('hi')}>Hindi</li>
             <li onClick={() => handleLanguageChange('gu')}>Gujarati</li>
           </ul>
         </li>
-
-        <li>
-          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} </a>
+        <li className="notification-icon">
+          <a href="#notifications">
+            <FaBell />
+            {notificationCount > 0 && <span className="notification-badge">{notificationCount}</span>}
+          </a>
         </li>
-       
-        
+        <li 
+          className="profile-dropdown"
+          onMouseEnter={() => setIsProfileHovered(true)}
+          onMouseLeave={() => setIsProfileHovered(false)}
+        >
+          <a href="#profile">
+            <img src={profilePhoto} alt="Profile" className="profile-photo" />
+          </a>
+          {isProfileHovered && (
+            <div className="profile-submenu">
+              <ul>
+                {/* Profile Management Section */}
+                <li>
+                  <FaUserEdit />
+                  <Link to="/ProfileManagement">Manage Profile</Link>
+                </li>
+                <li>
+                  <FaSignOutAlt />
+                  <a href="/login" onClick={handleLogout}>Logout</a>
+                </li>
+                <li>
+                  <FaTrash />
+                  <Link to="/delete-account">Delete Account</Link>
+                </li>
+                {/* Content Management Section */}
+                <hr className="profile-submenu-divider" />
+                <li>
+                  <FaBookmark />
+                  <Link to="/saved-content">Saved Content</Link>
+                </li>
+                <li>
+                  <FaFileAlt />
+                  <Link to="/ManageContent">Manage Content</Link>
+                </li>
+                
+                {/* Account Section */}
+                <hr className="profile-submenu-divider" />
+                
+                
+                {/* Insights and Subscription Section */}
+              
+                <li>
+                  <FaChartLine />
+                  <Link to="/insights">Insights</Link>
+                </li>
+                <li>
+                  <FaMoneyBillWave />
+                  <Link to="/subscription">Subscription</Link>
+                </li>
+                
+                {/* Notifications and Appearance */}
+                <hr className="profile-submenu-divider" />
+                <li>
+                  <FaBell />
+                  <Link to="/notifications">Notifications</Link>
+                </li>
+                <li>
+                  {isDarkMode ? <FaSun /> : <FaMoon />}
+                  <a href="#mode" onClick={toggleMode}>Appearance</a>
+                </li>
+                
+                {/* Logout */}
+              
+                
+              </ul>
+            </div>
+          )}
+        </li>
       </ul>
     </nav>
   );
