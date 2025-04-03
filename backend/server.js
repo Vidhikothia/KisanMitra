@@ -26,12 +26,9 @@ app.use(express.json({ limit: "200mb" }));
 app.use(express.urlencoded({ limit: "200mb", extended: true }));
 
 // Routes
-// app.use('/auth/api', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/content', contentRoutes);
 app.use('/analytics', analyticsRoutes);
-
-// app.use('/api/crops', cropRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
