@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Navbar.css'; 
+import './Navbar.css';
 import { FaLanguage, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaUpload } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import km from "./kisanmitra.png";
@@ -18,7 +18,6 @@ const Navbar = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -55,7 +54,6 @@ const Navbar = () => {
   };
 
   const toggleProfile = () => setIsProfileOpen(prev => !prev);
-
   const becomeEducator = () => setIsEducator(true);
 
   return (
@@ -93,18 +91,9 @@ const Navbar = () => {
             <li><a href="/cheatsheet">Cheatsheet</a></li>
           </ul>
         </li>
-        {/* <li>
-          <a href="#profile" onClick={toggleProfile}><img src={profilePhoto} alt="Profile" className="profile-photo" /></a>
-          {isProfileOpen && (
-            <ul className="dropdown">
-              <li><a href="/manageprofile"><FaUserEdit /> Manage Profile</a></li>
-              <li><a href="/login" onClick={handleLogout}><FaSignOutAlt /> Logout</a></li>
-            </ul>
-          )}
-        </li> */}
 
-<li><a href="/login">Login</a></li>
-        
+        <li><a href="/login">Login</a></li>
+
         <li>
           <a href="#language"><FaLanguage /></a>
           <ul className="dropdown">
@@ -115,10 +104,10 @@ const Navbar = () => {
         </li>
 
         <li>
-          <a href="#mode" onClick={toggleMode}>{isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}</a>
+          <a href="#mode" onClick={toggleMode}>
+            {isDarkMode ? <FaSun /> : <FaMoon />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          </a>
         </li>
-       
-        
       </ul>
     </nav>
   );
