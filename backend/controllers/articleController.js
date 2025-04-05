@@ -76,6 +76,13 @@ exports.uploadArticle = async (req, res) => {
                             console.error("Error uploading/saving image:", err);
                         }
                     }
+                    await Article.findByIdAndUpdate(
+                        savedArticle._id,
+                        { $push: { photos: { $each: imageUrls } } }, // Push multiple URLs at once
+                        { new: true } // Return updated document
+                    );
+                
+                    console.log("Article updated with photos:", imageUrls);
                 }
 
                 console.log("Final image URLs:", imageUrls);
@@ -185,7 +192,16 @@ exports.getAllArticles = async (req, res) => {
       if (!articles.length) {
         return res.status(404).json({ message: "No articles found for this educator." });
       }
-  
+       // ✅ Step 3: Fetch Images for Each Article
+    //    const articlesWithImages = await Promise.all(
+    //     articles.map(async (article) => {
+    //         const images = await Image.find({ article_id: article._id }).select("imageUrl");
+    //         return {
+    //             ...article.toObject(), // Convert Mongoose object to plain JS object
+    //             images: images.map(img => img.imageUrl) // Attach image URLs
+    //         };
+    //     })
+    // );
       res.status(200).json(articles); // ✅ Return Article linked to the educator
     } catch (error) {
       console.error("Error fetching articles:", error);

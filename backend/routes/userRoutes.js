@@ -15,13 +15,14 @@ router.post(
 );
 router.put(
     '/update-educator/:id',
-    protect,
+    protect, 
     upload.single('photo'),
-    educatorController.updateEducator
+    educatorController.updateEducator 
 );
 router.get('/all-educators', educatorController.getAllEducators);
 router.get('/get-educator/:id', protect, educatorController.getEducatorById);
 router.delete('/delete-educator/:id', protect, educatorController.deleteEducator);
+router.get('/profile-photo/:id', educatorController.getEducatorProfilePhoto);
 
 //normal users
 router.put('/update', protect, updateUser); // Update user
