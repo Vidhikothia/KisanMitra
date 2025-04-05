@@ -6,10 +6,10 @@ const Educator = require('../models/Educator');
 exports.subscribeToEducator = async (req, res) => {
     try {
         const farmerId = req.user._id; // Get farmer ID from token
-        const { educator_id } = req.body;
+        const { educatorId } = req.params;
 
         // Check if already subscribed
-        const existingSubscription = await Subscription.findOne({ farmer_id: farmerId, educator_id });
+        const existingSubscription = await Subscription.findOne({ farmer_id: farmerId, educatorId });
 
         if (existingSubscription) {
             if (existingSubscription.status === "Subscribed") {
@@ -38,10 +38,10 @@ exports.subscribeToEducator = async (req, res) => {
 exports.unsubscribeFromEducator = async (req, res) => {
     try {
         const farmerId = req.user._id;
-        const { educator_id } = req.body;
+        const { educatorId } = req.params;
 
         // Check if subscription exists
-        const subscription = await Subscription.findOne({ farmer_id: farmerId, educator_id });
+        const subscription = await Subscription.findOne({ farmer_id: farmerId, educatorId });
 
         if (!subscription || subscription.status === "Unsubscribed") {
             return res.status(400).json({ message: "You are not subscribed to this educator." });
@@ -96,3 +96,24 @@ exports.getSubscriptionStats = async (req, res) => {
         res.status(500).json({ message: "Error fetching subscription stats", error: error.message });
     }
 };
+exports.checkSubscription = async (req, res) => {
+    try {
+      const userId = req.user._id; // Retrieved from the protect middleware
+      const educatorId = req.params.educatorId;
+  
+      const subscription = await Subscription.findOne({
+        farmer_id: userId,
+        educator_id: educatorId,
+        status: 'Subscribed'
+      });
+  
+      if (subscription) {
+        return res.status(200).json({ isSubscribed: true, message: "User is currently subscribed to this educator" });
+      } else {
+        return res.status(200).json({ isSubscribed: false, message: "User is not subscribed to this educator" });
+      }
+    } catch (error) {
+      console.error("Error checking subscription:", error);
+      return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+  };

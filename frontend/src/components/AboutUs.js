@@ -7,7 +7,7 @@ import team2 from './team2.jpg';
 import team3 from './team3.jpg'; 
 
 const AboutUs = () => {
-  return (
+  return ( 
     <section className="about-us">
       <div className="container">
         

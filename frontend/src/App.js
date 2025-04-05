@@ -19,8 +19,8 @@ import Videos from "./components/Videos";
 import Crop from './components/Crop';
 import PlantDiseaseDetection from './components/PlantDiseaseDetection';
 import VideoUploadForm from "./components/VideoUploadForm";
-import ArticleUploadForm from "./components/ArticleUploadForm";
-import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
+// import ArticleUploadForm from "./components/ArticleUploadForm";
+// import CheatsheetUploadForm from "./components/CheatsheetUploadForm";
 import Dashboard from "./components/Dashboard";
 import AdminDashboard from "./components/admin/dashboardAdmin";
 import FeedbackForm from "./components/FeedbackForm";
@@ -68,8 +68,8 @@ const App = () => {
                 <Route path="/videos" element={<Videos />} />
                 <Route path="/saved-content" element={<SavedVideos />} />
                 <Route path="/videos/notifications" element={<NotificationsPage />} />
-                <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />} />
-                <Route path="/articleuploadform" element={<ArticleUploadForm />} />
+                {/* <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />} /> */}
+                {/* <Route path="/articleuploadform" element={<ArticleUploadForm />} /> */}
                 <Route path="/BecomeEducator" element={<BecomeEducator />} />
                 <Route path="/ProfileManagement" element={<ProfileManagement />} />
                 <Route path="/ManageContent" element={<ManageContent />} />

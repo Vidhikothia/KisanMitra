@@ -29,7 +29,7 @@ body {
   z-index: 2;
 }
 
-.section-title {
+.scheme-section-title {
   font-size: 2.2rem;
   font-weight: 700;
   color: var(--accent-brown);

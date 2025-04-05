@@ -3,6 +3,7 @@ const Content = require('../models/Content');
 const Educator = require('../models/Educator');
 const Subscription = require('../models/Subscription');
 const Notification = require('../models/Notification');
+const SavedContent = require('../models/Saved_content');
 const cloudinary = require('cloudinary').v2;
 
 // 🆕 Upload Video
@@ -114,19 +115,49 @@ exports.likeVideo = async (req, res) => {
 // 📌 Save a Video
 exports.saveVideo = async (req, res) => {
     try {
-        const video = await Video.findByIdAndUpdate(
-            req.params.id,
-            { $inc: { saved_count: 1 } },
-            { new: true }
-        );
-
-        if (!video) return res.status(404).json({ message: "Video not found" });
-
-        res.json({ message: "Video saved successfully", saved_count: video.saved_count });
+      const userId = req.user._id; // from protect middleware
+      const videoId = req.params.id;
+  
+      // 1. Check if this video is already saved by this user
+      const alreadySaved = await SavedContent.findOne({
+        user_id: userId,
+        content_id: videoId,
+      });
+  
+      if (alreadySaved) {
+        return res.status(200).json({
+          message: "Video already saved",
+          saved_count: (await Video.findById(videoId)).saved_count, // return current count
+        });
+      }
+  
+      // 2. Increment saved_count in the Video
+      const video = await Video.findByIdAndUpdate(
+        videoId,
+        { $inc: { saved_count: 1 } },
+        { new: true }
+      );
+  
+      if (!video) return res.status(404).json({ message: "Video not found" });
+  
+      // 3. Save new entry in SavedContent
+      const newSavedContent = new SavedContent({
+        user_id: userId,
+        content_id: videoId,
+      });
+  
+      await newSavedContent.save();
+  
+      res.status(200).json({
+        message: "Video saved successfully",
+        saved_count: video.saved_count,
+      });
+  
     } catch (error) {
-        res.status(500).json({ message: "Error saving video", error: error.message });
+      console.error("Error saving video:", error);
+      res.status(500).json({ message: "Error saving video", error: error.message });
     }
-};
+  };
 
 // 🔍 Get Video by ID
 exports.getVideoById = async (req, res) => {

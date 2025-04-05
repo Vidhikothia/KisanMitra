@@ -7,7 +7,7 @@ const Scheme = () => {
       <section className="schemes-section">
         <div className="content-container">
           <div className="text-side">
-            <h1 className="section-title">Government Schemes for Farmers</h1>
+            <h1 className="scheme-section-title">Government Schemes for Farmers</h1>
             <p className="section-description">
               Empowering farmers through innovative and accessible schemes. These initiatives 
               are designed to provide financial support, improve sustainability, and foster growth 
