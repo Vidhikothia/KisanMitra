@@ -22,7 +22,8 @@ router.get('/videos', videoController.getAllVideos);
 router.put('/videos/:id', protect, videoController.updateVideo);
 router.delete('/videos/:id', protect, videoController.deleteVideo);
 router.get("/videos/educator/:educatorId", videoController.getVideosByEducatorId);
-
+router.post('/videos/like/:id', videoController.likeVideo);
+router.post('/videos/save/:id', videoController.saveVideo);
 //articles
 router.post(
     '/upload_article',
