@@ -35,6 +35,24 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/notifications', {
+          credentials: 'include',
+        });
+        const data = await response.json();
+        const unread = data.notifications.filter(n => !n.isRead).length;
+        setNotificationCount(unread);
+      } catch (error) {
+        console.error("Failed to fetch notifications", error);
+      }
+    };
+  
+    fetchNotifications();
+  }, []);
+  
+
+  useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark-mode');
     } else {
@@ -88,7 +106,7 @@ const Navbar = () => {
           </ul>
         </li>
         <li className="notification-icon">
-  <Link to="/videos/notifications" className="notification-link">
+  <Link to="/notifications" className="notification-link">
     <FaBell className="bell-icon" />
     {notificationCount > 0 && (
       <span className="notification-badge">{notificationCount}</span>
@@ -138,7 +156,7 @@ const Navbar = () => {
               
                 <li>
                   <FaChartLine />
-                  <Link to="/insights">Insights</Link>
+                  <Link to="/insightsedu">Insights</Link>
                 </li>
                 <li>
                   <FaMoneyBillWave />

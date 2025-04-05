@@ -26,7 +26,10 @@ import AdminDashboard from "./components/admin/dashboardAdmin";
 import FeedbackForm from "./components/FeedbackForm";
 import ManageContent from './components/educatorMenu/ManageContent.js'
 import SavedVideos from './components/SavedVideos.js'
-import NotificationsPage from './components/NotificationsPage.js'
+import NotificationList from './components/NotificationList.js'
+import InsightsEducator from "./components/educatorMenu/InsightsEducator.js";
+import Insights from "./components/Insights.js";
+import Subscription from './components/Subscription'; // or wherever your file is
 
 const App = () => {
   return (
@@ -58,16 +61,18 @@ const App = () => {
                     </>
                   }
                 />
-                
+
+                <Route path="/subscription" element={<Subscription />} />
                 <Route path="/feedbackform" element={<FeedbackForm />}/>
                 <Route path="/login" element={<LoginPage />} />
-                
+                <Route path="/insightsedu" element={<InsightsEducator />} />
                 <Route path="/article" element={<ArticlePage />} />
                 <Route path="/cheatsheet" element={<CheatsheetPage />} />
                 <Route path="/aboutus" element={<AboutUs />} />
                 <Route path="/videos" element={<Videos />} />
+                <Route path="/insights" element={<Insights />} />
                 <Route path="/saved-content" element={<SavedVideos />} />
-                <Route path="/videos/notifications" element={<NotificationsPage />} />
+                <Route path="/notifications" element={<NotificationList />} />
                 <Route path="/cheatsheetuploadform" element={<CheatsheetUploadForm />} />
                 <Route path="/articleuploadform" element={<ArticleUploadForm />} />
                 <Route path="/BecomeEducator" element={<BecomeEducator />} />

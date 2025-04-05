@@ -28,6 +28,28 @@ const userRoutes = require("./userRoutes");
 
 const router = express.Router();
 
+router.get("/me", async (req, res) => {
+  try {
+    console.log("Cookies received:", req.cookies); // ✅ Debugging
+
+    if (!req.cookies.token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    res.status(500).json({ message: "Error fetching user" });
+  }
+});
+
 // 🆕 User Registration
 router.post("/register", register);
 

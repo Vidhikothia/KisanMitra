@@ -1,0 +1,18 @@
+.subscription-page {
+    padding: 2rem;
+    font-family: sans-serif;
+  }
+  
+  .subscription-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .subscription-card {
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  

@@ -59,19 +59,39 @@ exports.unsubscribeFromEducator = async (req, res) => {
 };
 
 // ✅ Get all Educators a Farmer is Subscribed To
+// exports.getSubscribedEducators = async (req, res) => {
+//     try {
+//         const farmerId = req.user._id;
+
+//         const subscriptions = await Subscription.find({ farmer_id: farmerId }).populate('educator_id', 'user_id')
+//             .populate({ path: 'educator_id', populate: { path: 'user_id', select: 'username email' } });
+
+//         res.json({ subscriptions });
+
+//     } catch (error) {
+//         res.status(500).json({ message: "Error fetching subscriptions", error: error.message });
+//     }
+// };
 exports.getSubscribedEducators = async (req, res) => {
     try {
         const farmerId = req.user._id;
+        console.log("Farmer ID:", farmerId);
 
-        const subscriptions = await Subscription.find({ farmer_id: farmerId }).populate('educator_id', 'user_id')
-            .populate({ path: 'educator_id', populate: { path: 'user_id', select: 'username email' } });
+        const subscriptions = await Subscription.find({ farmer_id: farmerId, status: "Subscribed" })
+            .populate({
+                path: 'educator_id',
+                populate: { path: 'user_id', select: 'username email' }
+            });
+
+        console.log("Subscriptions Found:", subscriptions); // Debugging
 
         res.json({ subscriptions });
-
     } catch (error) {
+        console.error("Error fetching subscriptions:", error);
         res.status(500).json({ message: "Error fetching subscriptions", error: error.message });
     }
 };
+
 
 // ✅ Get Subscription Stats for an Educator
 exports.getSubscriptionStats = async (req, res) => {

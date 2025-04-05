@@ -7,6 +7,9 @@ const contentRoutes = require('./routes/contentRoutes'); // Correct the path her
 const cookieParser = require('cookie-parser');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const savedContentRoutes = require("./routes/savedContentRoutes");
+const notificationRoutes = require('./routes/notificationRoutes');
+const insightsRoutes = require('./routes/insightsRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
 // const cropRoutes = require('./routes/cropRoutes');
 const app = express();
@@ -25,7 +28,11 @@ app.use(
 );
 app.use(express.json({ limit: "200mb" }));
 app.use(express.urlencoded({ limit: "200mb", extended: true }));
+app.use('/insights', insightsRoutes);
+
 app.use("/saved-content", savedContentRoutes);
+app.use('/notifications', notificationRoutes);
+app.use('/subscription', subscriptionRoutes);
 
 // Routes
 app.use('/auth', authRoutes);

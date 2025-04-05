@@ -22,6 +22,16 @@ router.post("/save", async (req, res) => {
   }
 });
 
+router.get("/:userId/count", async (req, res) => {
+  try {
+    const count = await SavedContent.countDocuments({ user_id: req.params.userId });
+    res.json({ count });
+  } catch (error) {
+    console.error("Error fetching saved content count:", error);
+    res.status(500).json({ error: "Failed to fetch saved content count" });
+  }
+});
+
 // Get saved content for a user
 router.get("/:userId", async (req, res) => {
   try {
@@ -35,5 +45,7 @@ router.get("/:userId", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch saved content" });
   }
 });
+
+
 
 module.exports = router;
