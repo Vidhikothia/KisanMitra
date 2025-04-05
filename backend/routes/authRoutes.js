@@ -70,7 +70,7 @@ router.post("/logout", logout);
 
 // 🔒 Protected Route
 router.get("/profile", protect, (req, res) => {
-  res.json({ message: "Protected route accessed", user: req.user });
+  res.json({ message: "Protected route accessed", user: req.user , token : req.decoded});
 });
 
 // 👤 User Routes

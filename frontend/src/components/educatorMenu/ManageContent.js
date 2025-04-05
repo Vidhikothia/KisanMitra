@@ -77,7 +77,13 @@ const ManageContent = () => {
     try {
       setLoadingArticles(true)
       const response = await axios.get("http://localhost:5000/content/articles/educators", { withCredentials: true })
-
+      if (response.status === 404) {
+        console.warn("No articles found for this educator.");
+        setArticles([]); // ✅ Set empty array instead of throwing an error
+        setArticleError(null);
+        return;
+      }
+  
       const data = response.data
       console.log("articles data =", response)
 
@@ -383,11 +389,12 @@ const ManageContent = () => {
                 <div className="loading-spinner"></div>
                 <p>Loading articles...</p>
               </div>
-            ) : articleError ? (
-              <div className="error-message">
-                <p>Error: {articleError}</p>
-              </div>
-            ) : articles.length === 0 ? (
+            )// ) : articleError ? (
+            //   <div className="error-message">
+            //     <p>Error: {articleError}</p>
+            //   </div>
+            // ) 
+            : articles.length === 0 ? (
               <div className="empty-content-state">
                 <FaFileAlt className="empty-icon" />
                 <h3>No articles available yet</h3>
@@ -399,7 +406,7 @@ const ManageContent = () => {
                   <div className="article-card" key={article._id} onClick={() => handleArticleClick(article._id)}>
                     <div className="article-image-container">
                       <img
-                        src={article.images?.[0] || "https://via.placeholder.com/320x180?text=Article+Image"}
+                        src={article.photos?.[0] || "https://via.placeholder.com/320x180?text=Article+Image"}
                         alt="Article"
                         className="article-image"
                       />

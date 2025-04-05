@@ -371,6 +371,7 @@
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -478,9 +479,9 @@
   max-height: calc(90vh - 130px);
 }
 
-.upload-form-container {
+/* .upload-form-container {
   padding: 0;
-}
+} */
 
 .form-section {
   margin-bottom: 24px;

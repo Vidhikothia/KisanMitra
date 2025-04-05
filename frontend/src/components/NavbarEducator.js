@@ -8,13 +8,14 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import km from "./kisanmitra.png";
+import axios from 'axios';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
-  const [profilePhoto, setProfilePhoto] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+  const [profilePhoto, setProfilePhoto] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
 
   const navigate = useNavigate();
 
@@ -33,6 +34,32 @@ const Navbar = () => {
   const toggleMode = () => {
     setIsDarkMode((prev) => !prev);
   };
+  useEffect(() => {
+    const fetchProfilePhoto = async () => {
+      try {
+         const responseid = await axios.get('http://localhost:5000/auth/profile', { withCredentials: true });
+         const id = responseid.data.token.educatorId;
+        
+        console.log("educator id is ",id);
+        const response = await axios.get(`http://localhost:5000/auth/user/profile-photo/${id}`, { withCredentials: true });
+        const data = response.data;
+       
+        if (response.status === 200 && data.profile_photo) {
+          setProfilePhoto(`${data.profile_photo}?t=${new Date().getTime()}`);
+        } else {
+          console.error("Profile photo not found or invalid response:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching educator photo:", error);
+      }
+    };
+  
+    fetchProfilePhoto();
+  }, []);
+  useEffect(() => {
+    console.log("Updated Profile Photo:", profilePhoto);
+  }, [profilePhoto]); 
+
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -81,7 +108,7 @@ const Navbar = () => {
       console.error("Error during logout:", error);
     }
   };
-
+  
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isDarkMode ? 'dark' : ''}`}>
       <div className="logo">

@@ -160,3 +160,18 @@ exports.getAllEducators = async (req, res) => {
         res.status(500).json({ message: "Failed to fetch educators", error: error.message });
     }
 };
+exports.getEducatorProfilePhoto = async (req, res) => {
+    try {
+        
+       console.log("educatore id = ",req.params.id);
+       const educator = await Educator.findById(req.params.id);
+        if (!educator) {
+            return res.status(404).json({ message: 'Educator not found' });
+        }
+  
+      res.status(200).json({ profile_photo: educator.photo });
+    } catch (error) {
+      console.error('Error fetching educator profile photo:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  };
