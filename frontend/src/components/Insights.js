@@ -55,7 +55,7 @@ const Insights = () => {
 
       <div className="stats-row">
         <div className="stat-box">
-          <h2>Total Videos</h2>
+          <h2>Saved Videos</h2>
           <p>{videoCount}</p>
         </div>
         <div className="stat-box">

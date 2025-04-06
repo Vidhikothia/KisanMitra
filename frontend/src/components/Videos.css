@@ -107,6 +107,14 @@
   margin-bottom: 15px;
   color: #333;
 }
+.saved-heading {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2f4f4f;
+  font-weight: bold;
+}
+
 
 /* Main container */
 .insights-page {

@@ -32,6 +32,17 @@ router.post(
     articleController.uploadArticle
 );
 
+// In routes/videos.js or routes/contentRoutes.js
+router.get("/videos/count", async (req, res) => {
+    try {
+      const count = await Video.countDocuments();
+      res.json({ count });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to count videos" });
+    }
+  });
+  
+
 router.get('/articles/educators', protect, articleController.getArticlesByLoggedInEducator);
 router.get('/articles/:id', articleController.getArticleById);
 router.get('/articles', articleController.getAllArticles);

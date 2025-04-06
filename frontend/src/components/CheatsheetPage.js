@@ -183,7 +183,7 @@ const CheatSheetPage = () => {
 
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
           gap: "20px",
           marginBottom: "30px"
         }}>

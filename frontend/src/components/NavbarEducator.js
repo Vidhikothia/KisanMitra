@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './NavbarFarmers.css';
 import { Link } from 'react-router-dom';
 import { 
-  FaGlobeAmericas, FaSun, FaMoon, FaSignOutAlt, FaUserEdit, FaBell, 
+  FaGlobeAmericas, FaSun,FaStar, FaMoon, FaSignOutAlt, FaUserEdit, FaBell, 
   FaMoneyBillWave, FaChalkboardTeacher, FaSave, FaTrash, FaChartLine, 
   FaFileAlt, FaBookmark 
 } from 'react-icons/fa';
@@ -189,7 +189,10 @@ const Navbar = () => {
                   <FaMoneyBillWave />
                   <Link to="/subscription">Subscription</Link>
                 </li>
-                
+                              <li>
+                  <FaStar /> {/* Golden star for premium look */}
+                  <a href="/premium-videos">Watch Premium Videos</a>
+                </li>
                 {/* Notifications and Appearance */}
                 <hr className="profile-submenu-divider" />
                 <li>

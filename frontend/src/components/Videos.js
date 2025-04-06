@@ -10,23 +10,14 @@ const Videos = () => {
   const videoRefs = useRef({});
   const [subscribedVideos, setSubscribedVideos] = useState({});
 
- 
-  
-
-
   useEffect(() => {
-   
-
     const fetchVideos = async () => {
       try {
         const response = await fetch("http://localhost:5000/content/videos");
-        if (!response.ok) {
-          throw new Error("Failed to fetch videos");
-        }
+        if (!response.ok) throw new Error("Failed to fetch videos");
         const data = await response.json();
         setVideos(data);
-        
-        // Extract unique categories from videos
+
         const uniqueCategories = [...new Set(data.map(video => 
           video.content_id?.category || "Uncategorized"
         ))];
@@ -40,135 +31,115 @@ const Videos = () => {
     fetchVideos();
   }, []);
 
-  
   const handleLike = async (videoId) => {
     try {
-        const response = await fetch(`http://localhost:5000/content/videos/like/${videoId}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        });
-        const data = await response.json();
-        
-        if (response.ok) {
-            setVideos(prevVideos =>
-                prevVideos.map(video =>
-                    video._id === videoId ? { ...video, like_count: data.like_count || 0 } : video
-                )
-            );
-        }
-    } catch (error) {
-      alert("An error occurred. Please try again.");
-        console.error("Error liking video:", error);
-    }
-};
-
-const handleSave = async (video) => {
-  try {
-      const response = await fetch(`http://localhost:5000/content/videos/save/${video._id}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" }
+      const response = await fetch(`http://localhost:5000/content/videos/like/${videoId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
       });
       const data = await response.json();
-      
+
       if (response.ok) {
-          setVideos(prevVideos =>
-              prevVideos.map(v =>
-                  v._id === video._id ? { ...v, saved_count: data.saved_count || 0 } : v
-              )
-          );
-
-          // Get saved videos from localStorage
-          const savedVideos = JSON.parse(localStorage.getItem("savedVideos")) || [];
-
-          // Check if video is already saved
-          if (!savedVideos.some(v => v._id === video._id)) {
-              const updatedSavedVideos = [...savedVideos, video];
-              localStorage.setItem("savedVideos", JSON.stringify(updatedSavedVideos));
-          }
+        setVideos(prev =>
+          prev.map(video =>
+            video._id === videoId ? { ...video, like_count: data.like_count || 0 } : video
+          )
+        );
       }
-  } catch (error) {
+    } catch (error) {
       alert("An error occurred. Please try again.");
-      console.error("Error saving video:", error);
-  }
-};
-
-
-
-const handleSubscribe = (videoId) => {
-  setSubscribedVideos((prev) => ({
-    ...prev,
-    [videoId]: !prev[videoId], // Toggle subscription status
-  }));
-};
-
-
-
-  const handleVideoClick = (videoId, event) => {
-    event.stopPropagation(); // Prevent the click from bubbling up to the card
-    const video = videoRefs.current[videoId];
-    
-    if (video) {
-      // Make the video visible before attempting fullscreen
-      video.style.display = "block";
-      
-      // Start playing the video
-      video.play()
-        .then(() => {
-          // Request fullscreen after play has started
-          if (video.requestFullscreen) {
-            video.requestFullscreen();
-          } else if (video.mozRequestFullScreen) {
-            video.mozRequestFullScreen();
-          } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-          } else if (video.msRequestFullscreen) {
-            video.msRequestFullscreen();
-          }
-        })
-        .catch(err => {
-          console.error("Error playing video:", err);
-        });
+      console.error("Error liking video:", error);
     }
   };
 
-  // Handle exiting fullscreen
+  const handleSave = async (video) => {
+    try {
+      const response = await fetch(`http://localhost:5000/content/videos/save/${video._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setVideos(prev =>
+          prev.map(v =>
+            v._id === video._id ? { ...v, saved_count: data.saved_count || 0 } : v
+          )
+        );
+
+        const savedVideos = JSON.parse(localStorage.getItem("savedVideos")) || [];
+        if (!savedVideos.some(v => v._id === video._id)) {
+          const updatedSavedVideos = [...savedVideos, video];
+          localStorage.setItem("savedVideos", JSON.stringify(updatedSavedVideos));
+        }
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again.");
+      console.error("Error saving video:", error);
+    }
+  };
+
+  const handleSubscribe = (videoId) => {
+    setSubscribedVideos(prev => ({
+      ...prev,
+      [videoId]: !prev[videoId]
+    }));
+  };
+
+  const handleVideoClick = (videoId, event) => {
+    event.stopPropagation();
+    const video = videoRefs.current[videoId];
+    if (video) {
+      video.style.display = "block";
+      video.play().then(() => {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+      }).catch(err => {
+        console.error("Error playing video:", err);
+      });
+    }
+  };
+
   const handleFullscreenChange = (videoId) => {
     const video = videoRefs.current[videoId];
-    if (video && !(document.fullscreenElement || 
-                   document.webkitFullscreenElement || 
-                   document.mozFullScreenElement || 
-                   document.msFullscreenElement)) {
-      // Hide the video when exiting fullscreen
+    if (video && !(
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    )) {
       video.style.display = "none";
       video.pause();
     }
   };
 
   useEffect(() => {
-    // Add fullscreenchange event listeners
-    const fullscreenChangeEvents = [
-      'fullscreenchange',
-      'webkitfullscreenchange',
-      'mozfullscreenchange',
-      'MSFullscreenChange'
+    const fullscreenEvents = [
+      'fullscreenchange', 'webkitfullscreenchange',
+      'mozfullscreenchange', 'MSFullscreenChange'
     ];
 
-    // Add listeners for all video elements
     videos.forEach(video => {
       const videoElement = videoRefs.current[video._id];
       if (videoElement) {
-        fullscreenChangeEvents.forEach(eventName => {
+        fullscreenEvents.forEach(eventName => {
           videoElement.addEventListener(eventName, () => handleFullscreenChange(video._id));
         });
       }
     });
 
-    // Clean up event listeners
     return () => {
       videos.forEach(video => {
         const videoElement = videoRefs.current[video._id];
         if (videoElement) {
-          fullscreenChangeEvents.forEach(eventName => {
+          fullscreenEvents.forEach(eventName => {
             videoElement.removeEventListener(eventName, () => handleFullscreenChange(video._id));
           });
         }
@@ -176,40 +147,34 @@ const handleSubscribe = (videoId) => {
     };
   }, [videos]);
 
-  // Filter videos by selected category
-  // Filter videos by selected category and sort by uploaded_date (latest first)
-const filteredVideos = [...videos]
-.filter(video => selectedCategory === "all" || 
-        (video.content_id?.category || "Uncategorized") === selectedCategory)
-.sort((a, b) => 
-  new Date(b.content_id?.uploaded_date || 0) - new Date(a.content_id?.uploaded_date || 0)
-);
-
+  const filteredVideos = [...videos]
+    .filter(video => selectedCategory === "all" ||
+      (video.content_id?.category || "Uncategorized") === selectedCategory)
+    .sort((a, b) =>
+      new Date(b.content_id?.uploaded_date || 0) - new Date(a.content_id?.uploaded_date || 0)
+    );
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const totalLikes = videos.reduce((sum, video) => sum + (video.like_count || 0), 0);
+  const totalSaves = videos.reduce((sum, video) => sum + (video.saved_count || 0), 0);
+
   return (
     <div className="videos-page">
-      {/* <div className="category-filter">
-        <select 
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="category-selector"
-        >
-          <option value="all">All Categories</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+      {/* Summary Section */}
+      {/* <div className="video-summary">
+        <h2>📊 Engagement Summary</h2>
+        <p><strong>Total Likes:</strong> ❤️ {totalLikes}</p>
+        <p><strong>Total Saves:</strong> 💾 {totalSaves}</p>
       </div> */}
+
       
+
+      {/* Video Cards */}
       <div className="videos-container">
         {filteredVideos.map((video) => (
           <div className="video-card" key={video._id}>
-            {/* Thumbnail Overlay */}
             <div 
               className="thumbnail-overlay"
               onClick={(e) => handleVideoClick(video._id, e)}
@@ -221,8 +186,7 @@ const filteredVideos = [...videos]
               />
               <div className="play-button">▶</div>
             </div>
-            
-            {/* Video - hidden by default via CSS */}
+
             <video
               ref={(el) => (videoRefs.current[video._id] = el)}
               className="video-player"
@@ -231,43 +195,30 @@ const filteredVideos = [...videos]
               <source src={video.video_url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            
-            {/* Video Info */}
+
             <div className="video-info">
               <h2 className="video-title">{video.content_id?.title || "Untitled Video"}</h2>
-              <p className="video-description">
-                {video.content_id?.description || "No description available."}
-              </p>
-              {/* Video Meta & Actions */}
+              <p className="video-description">{video.content_id?.description || "No description available."}</p>
               <div className="video-meta">
-                <p className="video-date">
-                  Uploaded:{" "}
-                  {video.content_id?.uploaded_date
+                <p>Uploaded: {video.content_id?.uploaded_date
                     ? new Date(video.content_id.uploaded_date).toLocaleDateString()
-                    : "Unknown"}
-                </p>
-                <p className="video-educator">Educator: {video.content_id?.creator?.user_id?.username}</p>
-                <p className="video-category">Category: {video.content_id?.category || "Uncategorized"}</p>
+                    : "Unknown"}</p>
+                <p>Educator: {video.content_id?.creator?.user_id?.username}</p>
+                <p>Category: {video.content_id?.category || "Uncategorized"}</p>
                 <div className="video-actions">
-    <button className="like-btn" onClick={() => handleLike(video._id)}>
-        ❤️ Like ({video.like_count || 0})
-    </button>
-    <button className="save-btn" onClick={() => handleSave(video)}>
-    💾 Save ({video.saved_count || 0})
-</button>
-
-{/* <a href="/saved-content" className="view-saved-btn">📁 View Saved Videos</a> */}
-
-<button
-                  className={`subscribe-btn ${subscribedVideos[video._id] ? "subscribed" : ""}`}
-                  onClick={() => handleSubscribe(video._id)}
-                >
-                  {subscribedVideos[video._id] ? "📤 Unsubscribe" : "📩 Subscribe"}
-                </button>
-
-
-</div>
-                    
+                  <button className="like-btn" onClick={() => handleLike(video._id)}>
+                    ❤️ Like ({video.like_count || 0})
+                  </button>
+                  <button className="save-btn" onClick={() => handleSave(video)}>
+                    💾 Save ({video.saved_count || 0})
+                  </button>
+                  <button
+                    className={`subscribe-btn ${subscribedVideos[video._id] ? "subscribed" : ""}`}
+                    onClick={() => handleSubscribe(video._id)}
+                  >
+                    {subscribedVideos[video._id] ? "📤 Unsubscribe" : "📩 Subscribe"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

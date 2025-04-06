@@ -53,19 +53,25 @@ const NotificationList = () => {
 
   return (
     <div>
-      <h2>  🔔 Your Notifications</h2>
+      <h2>🔔 Your Notifications</h2>
       <ul>
         {notifications.map((n) => (
           <li key={n._id} style={{ fontWeight: n.isRead ? 'normal' : 'bold' }}>
             {n.message}
             {!n.isRead && (
-              <button onClick={() => markAsRead(n._id)}>Mark as Read</button>
+              <button 
+                onClick={() => markAsRead(n._id)} 
+                style={{ marginLeft: "16px" }} // 👈 Adjust the margin here
+              >
+                Mark as Read
+              </button>
             )}
           </li>
         ))}
       </ul>
     </div>
   );
+  
 };
 
 export default NotificationList;

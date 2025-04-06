@@ -9,6 +9,7 @@ import {
   FaUserEdit,
   FaChartLine,
   FaBell,
+  FaStar,
   FaMoneyBillWave,
   FaBookmark,
   FaChalkboardTeacher,
@@ -179,6 +180,11 @@ const Navbar = () => {
                   <FaMoneyBillWave />
                   <a href="/subscription">Subscription</a>
                 </li>
+                <li>
+  <FaStar /> {/* Golden star for premium look */}
+  <a href="/premium-videos">Watch Premium Videos</a>
+</li>
+
                 <li>
                   <FaBell />
                   <a href="/notifications">Notifications</a>

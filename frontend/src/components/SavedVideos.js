@@ -7,30 +7,30 @@ const SavedVideos = () => {
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("savedVideos")) || [];
     setSavedVideos(saved);
-  
+
     // Analytics
     const categories = {};
     let latestDate = 0;
     let oldestDate = Date.now();
     const titles = [];
-  
+
     saved.forEach((video) => {
       const { category, uploaded_date, title } = video.content_id || {};
-  
+
       // Category Count
       if (category) {
         categories[category] = (categories[category] || 0) + 1;
       }
-  
+
       // Date Check
       const date = new Date(uploaded_date).getTime();
       if (date > latestDate) latestDate = date;
       if (date < oldestDate) oldestDate = date;
-  
+
       // Titles
       if (title) titles.push(title);
     });
-  
+
     console.log("✅ Total Videos:", saved.length);
     console.log("📁 Category Breakdown:", categories);
     console.log("🏷️ Top Category:", Object.entries(categories).sort((a, b) => b[1] - a[1])[0]?.[0]);
@@ -38,13 +38,11 @@ const SavedVideos = () => {
     console.log("⏳ Oldest Upload:", new Date(oldestDate).toLocaleDateString());
     console.log("🧾 Titles:", titles);
   }, []);
-  
 
   return (
     <div className="videos-page">
+      <h1 className="saved-heading">Saved Videos</h1> {/* 👈 New Heading */}
       <div className="videos-container">
-    
-
         {savedVideos.length === 0 ? (
           <p>No saved videos</p>
         ) : (

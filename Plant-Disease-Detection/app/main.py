@@ -79,6 +79,6 @@ if uploaded_image is not None:
 st.markdown(
     """
     ---
-    🌿 *Developed with ❤️ for FarmEasy.*
+    🌿 *Developed with ❤️ for KisanMitra.*
     """
 )
